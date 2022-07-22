@@ -1,0 +1,8 @@
+.custom{
+    display: flex;
+    justify-content: flex-end;
+}
+.slds-float_right{
+    border: none;
+    box-shadow: none;
+}

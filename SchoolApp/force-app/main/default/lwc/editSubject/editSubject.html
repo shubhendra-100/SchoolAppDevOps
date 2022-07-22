@@ -1,0 +1,33 @@
+<template>
+
+
+    <lightning-card>
+        <lightning-record-edit-form record-id={recordsId} object-api-name="Subject_Course__c" onsuccess={handleSuccess}>
+            <lightning-messages></lightning-messages>
+            <lightning-layout size="12">
+
+                <lightning-layout-item size="12" class="slds-p-around_medium">
+                    <lightning-input-field field-name="Name" required> </lightning-input-field>
+                </lightning-layout-item>
+            </lightning-layout>
+
+            <footer class="slds-modal__footer">
+
+                <div slot="footer" class="slds-clearfix">
+
+                    <lightning-button label="Cancel" onclick={closeModal}
+                        class="slds-var-m-left_medium slds-float_right"></lightning-button>
+
+                    <lightning-button type="submit" name="update" variant="brand" label="Update"
+                        class="slds-var-m-left_medium slds-float_right"></lightning-button>
+
+                </div>
+
+            </footer>
+
+        </lightning-record-edit-form>
+
+    </lightning-card>
+
+
+</template>

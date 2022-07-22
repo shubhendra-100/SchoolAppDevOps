@@ -1,0 +1,112 @@
+<template>
+    <lightning-card>
+        <div class="slds-p-horizontal_medium">
+            <lightning-layout>
+                <lightning-layout-item size="4" class="slds-p-left_small">
+                    <lightning-icon icon-name="action:clone" class="slds-p-left_small  " alternative-text="Clone"
+                        title="Clone"></lightning-icon>
+                    <span class="slds-p-horizontal_small" style="font-weight: bold;">MANAGE ADMISSIONS</span>
+                </lightning-layout-item>
+                <lightning-layout-item size="4">
+                    <div class="slds-align_absolute-center slds-p-left_xx-large">
+                        <!-- <lightning-combobox name="progress" label="Academic Year" placeholder="Select"
+                            options={options} onchange={handleChange} required></lightning-combobox> -->
+                        <!-- <h5 class="slds-p-horizontal_small">Academic Year</h5> -->
+                        <!-- <c-custom-lookup name='academicYear' obj-name="Academic_year__c" search-placeholder="Search Academic Year"
+                                icon-name="standard:account" onlookupselected={handleAccountSelection}  required>
+                            </c-custom-lookup> -->
+                        <lightning-combobox name="Academic Year" label="Academic Year"
+                            placeholder="Search Academic Year" options={options} onchange={getsearchRecords}>
+                        </lightning-combobox>
+
+                        <!-- <lightning-input name="Academic Year" label="Academic Year" type="search"
+                            onchange={getsearchRecords} placeholder="Search Academic Year"></lightning-input> -->
+
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="4">
+                    <div class="slds-clearfix">
+                        <div class="slds-float_right">
+                            <lightning-button-icon icon-name="utility:adduser" variant="brand"
+                                alternative-text="Add Admission" class="slds-m-left_xx-small" title="Add Admission"
+                                onclick={openModal}>
+                            </lightning-button-icon>
+                            <!-- <lightning-button-icon icon-name="utility:delete" variant="brand"
+                                alternative-text="Add user" class="slds-m-left_xx-small" title="Delete Admission "
+                                onclick={deleteHandler}>
+                            </lightning-button-icon> -->
+                        </div>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+
+            <template if:true={openPopup}>
+                <c-create-admission edit-obj={editObj} edit-data={editData} onclose={handleCloseModal}
+                    record-id={editRecordId} onedit={popup}> </c-create-admission>
+
+            </template>
+
+
+            <template if:true={isModalOpen}>
+                <c-create-subject onsave={handleSaveHandler} onclose={handleCloseModal}></c-create-subject>
+
+            </template>
+
+
+            <!-- <template if:true={deleteWindow}>
+            <c-delete-confirmation modal-value={deleteWindow} onmodalchange={handleModalChange} ></c-delete-confirmation>
+        </template> -->
+
+
+            <div class="slds-m-top_medium">
+                <lightning-layout size="12" class=" slds-badge slds-p-horizontal_medium">
+                    <lightning-layout-item size="3">
+                        <span>Admission Status:</span>
+                        <span class=" slds-m-left_xx-small ">{status}</span>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="3">
+                        <span
+                            class="slds-box_xx-small slds-text-color_inverse slds-badge slds-theme_warning">{nos}</span>
+                        <span class=" slds-m-left_xx-small slds-text-font_monospace slds-text-body_small">No. of
+                            Seats</span>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="3">
+                        <span
+                            class="slds-box_xx-small slds-text-color_inverse slds-badge slds-theme_warning">{vals}</span>
+                        <span class=" slds-m-left_xx-small slds-text-font_monospace slds-text-body_small">Seats
+                            Filled</span>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="3">
+                        <span
+                            class="slds-box_xx-small slds-text-color_inverse slds-badge slds-theme_warning">{answer}</span>
+                        <span class=" slds-m-left_xx-small slds-text-font_monospace slds-text-body_small">Seats
+                            Available</span>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+
+            <div class="slds-m-top_medium">
+
+                <lightning-datatable key-field="Id" data={dataList} columns={columns}
+                    onrowselection={rowSelectionHandler} onrowaction={rowActionHandler} checkbox-column="true"
+                    onsave={saveHandleAction} draft-values={fldsItemValues} sorted-by={sortBy}
+                    sorted-direction={sortDirection} onsort={doSorting} oncellchange={keyUpHandler}>
+                </lightning-datatable>
+
+            </div>
+
+        </div>
+        <div slot="footer" class="slds-clearfix slds-p-top_xxx-small ">
+            <lightning-button label="Delete" variant="brand" onclick={deleteHandler}
+                class="slds-var-m-left_xx-small slds-float_right"></lightning-button>
+            <template if:true={deleteWindow}>
+                <c-delete-confirmation modal-value={deleteWindow}  obj-name="Admission__c" records-id={delId} onmodalchange={handleModalChange}>
+                </c-delete-confirmation>
+            </template>
+
+
+        </div>
+
+    </lightning-card>
+
+</template>

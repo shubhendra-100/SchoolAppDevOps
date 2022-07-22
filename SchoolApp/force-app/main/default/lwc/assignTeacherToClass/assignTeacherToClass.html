@@ -1,0 +1,76 @@
+<template>
+    
+
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item size="6" class="slds-p-around_x-small">
+                <lightning-input name="ClassName" type="text" label="Class Name" value={className}
+                    placeholder="Class Name" disabled required></lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="6" class="slds-p-around_x-small">
+                <lightning-input name="ClassSection" type="text" label="Class Section" value={classSection} disabled required></lightning-input>
+            </lightning-layout-item>
+    
+            <lightning-layout-item size="6" class="slds-p-around_x-small">
+                <lightning-input name="Created date" disabled label="Created date" value={createdDate} required></lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="6" class="slds-p-around_x-small">
+                <lightning-input name="Created by" disabled type="text" label="Created by" value={createdBy} required></lightning-input>
+            </lightning-layout-item>
+   
+            <lightning-layout-item size="6" class="slds-p-around_x-small">
+                <label class="slds-form-element__label" for="combobox-id-1">Teacher</label>
+
+                <c-custom-lookup filter='' id="Teacher_Name__c" throw-error={isError} obj-name='Contact' onlookupselected={selectedTeacher} required>
+                </c-custom-lookup>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="5" class="slds-p-around_x-small">
+                <!-- <label>Subject</label> -->
+                <label class="slds-form-element__label" for="combobox-id-1">Subject</label>
+                <c-custom-lookup filter='' id="subject" throw-error={isError} obj-name='Subject_Course__c' onlookupselected={selectedSubject} required>
+                </c-custom-lookup>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="1" style="margin-top: 27px; text-align-last: center;" class="slds-p-around_xxx-small  slds-m-top_large">
+                <lightning-button-icon icon-name="utility:new"  alternative-text="Assign teacher"
+                     title="Assign Teacher" onclick={addTeachSub}>
+                </lightning-button-icon>
+            </lightning-layout-item>
+        </lightning-layout>
+
+        <!-- <div>
+        <table>
+            <tr> 
+                <th>Teacher</th> <th>Subject</th>
+            </tr>
+            <template for:each={Records} for:item="Rec" for:index="index">
+              <tr key={Rec.index}> 
+                <td ><lightning-input type='text' data-index={index} value={Rec.Teacher_Name__c} onchange={TeacherNameHandler} required></lightning-input></td>
+                <td><lightning-input type='text' data-index={index} value={Rec.Subject_Course__c} onchange={SubjectNameHandler} required></lightning-input></td>
+              </tr>
+            </template>
+            </table>
+        </div> -->
+
+        <div>
+            <lightning-datatable key-field="Id" data={dataa} columns={columns} column-widths-mode="auto"
+                onrowselection={handleSelectedRow} onrowaction={handleRowAction}>
+            </lightning-datatable>
+        </div>
+
+        <footer class="slds-modal__footer">
+            <div slot="footer" class="slds-clearfix slds-p-top_xmedium ">
+
+                <lightning-button label="Cancel" onclick={closeModal} class="slds-var-m-left_xx-small slds-p-around_x-small slds-float_right">
+                </lightning-button>
+
+                <lightning-button label="Submit" variant="brand" onclick={closeModal} 
+                    class="slds-var-m-left_xx-small slds-p-around_x-small slds-float_right"></lightning-button>
+                    <!-- {submitHandler} -->
+
+            </div>
+        </footer>
+    
+</template>

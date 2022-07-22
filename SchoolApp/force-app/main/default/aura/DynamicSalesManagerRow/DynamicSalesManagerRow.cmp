@@ -1,0 +1,35 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    
+    <aura:attribute name="SalesManagerInstance" type="Target_Owner__c"/>
+    <aura:attribute name="unAssignedTargetAmount" type="Integer"/>
+    <aura:attribute name="rowIndex" type="String"/>
+    <aura:registerEvent name="DeleteRowEvt" type="c:DeleteRowEvt"/> 
+    <aura:registerEvent name="updateUnAssignementAmount" type="c:unAssignmentEvent"/>
+    <!-- Table Row -->   
+    <tr class="slds-text-title_caps">
+        <td> 
+            {!v.rowIndex + 1}
+        </td>
+        <td>
+            <lightning:input value="{!v.SalesManagerInstance.Name}" disabled="true"/>             
+        </td>
+        <td>
+            <lightning:input value="{!v.SalesManagerInstance.Target_Amount__c}" onchange="{!c.updateUnAssignement}" type="Number" min='1.0'/>
+        </td>
+        <td>
+            
+            <aura:if isTrue="{!v.SalesManagerInstance.Unique_Name__c != null }">
+                <a >
+                    <lightning:icon iconName="utility:database" class="slds-icon slds-icon_small" size="small" alternativeText="add"/>
+                    <span class="slds-assistive-text">Data Exist in DataBase</span>
+                </a>
+                <aura:set attribute="else">
+                    <a onclick="{!c.removeRow}">
+                        <lightning:icon disabled="true" variant="brand" iconName="utility:delete" class="slds-icon slds-icon_small" size="small" alternativeText="icon"/>
+                        <span class="slds-assistive-text">Delete Icon</span>
+                    </a>
+                </aura:set> 
+            </aura:if>
+        </td> 
+    </tr>
+</aura:component>

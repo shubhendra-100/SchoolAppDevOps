@@ -1,0 +1,106 @@
+.leftBox{
+    background-color: #536a8c;
+    color: #fff;
+    padding: 10px;
+    width: 50%;
+    height: 100%;
+    border-radius: 10px 0px 0px 10px;
+    position: relative;
+    overflow: auto;
+}
+
+.leftBox>h2{
+    letter-spacing: 2px;
+    font-size: revert;
+    width: 95%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rightBox{
+    background-color: #e5f0fa;
+    padding: 10px;
+    width: 50%;
+    height: 100%;
+    border-radius: 0px 10px 10px 0px;
+    overflow: auto;
+}
+
+.rightBox>p{
+    text-align: center;
+}
+
+
+.resScreen{
+    /* width: 100%; */
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    /* flex-direction: row;
+    justify-content: space-evenly; */
+
+}
+/* 
+@media(max-width: 720px){
+    .resScreen{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media(max-width: 1080px){
+    .resScreen{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+    }
+} */
+
+
+.container{
+    width: 100%;
+    height: 15vh;
+    border: 1px solid #ccc;
+    margin: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.slds-badge{
+    color: #fff;
+    background-color: #ff4747;
+    max-width: 50px;
+    overflow:hidden;
+}
+
+.rightBox>h3{
+    font-weight: bold;
+    text-align: center;
+}
+
+.step{
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: rotate(-90deg);
+}
+
+.arrow-left {
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 10px solid #e5f0fa;
+    position: absolute;
+    bottom: 60%;
+    right: 47%;
+}
+
+.rightBox::-webkit-scrollbar {
+    display: none;
+}

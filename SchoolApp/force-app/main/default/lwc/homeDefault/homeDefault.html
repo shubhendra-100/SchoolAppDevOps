@@ -1,0 +1,80 @@
+<template>
+    <lightning-card>
+
+        <lightning-layout style="text-align: center;">
+            <lightning-layout-item  flexibility="auto">
+                <c-wireframe-lwc></c-wireframe-lwc>
+            </lightning-layout-item>
+        </lightning-layout>
+
+        <lightning-layout class="resScreen" multiple-rows >
+
+            <!-- <div  > -->
+
+                <lightning-layout-item  flexibility="auto"  padding="around-small">
+                    <c-default-card obj-api-name='Academic_Year__c' header="Create Academic Year" step="STEP 1"
+                        header-line="Create Academic Year as per your standards"
+                        example-tag="[for eg: 2021-2022, 2022-2024]">
+                    </c-default-card>
+                </lightning-layout-item>
+
+                <lightning-layout-item flexibility="auto"  padding="around-small" >
+                    <c-default-card obj-api-name='Department__c' header="Add Department" step="STEP 2"
+                        header-line="Setup Your Departments"
+                        example-tag="[for eg: Lower Primary, English Department Sport, Lab Departments, etc]">
+                    </c-default-card>
+                </lightning-layout-item>
+            
+                <lightning-layout-item  flexibility="auto"  padding="around-small" >
+                    <c-default-card obj-api-name='ContactTeacher' header="Add Teachers/Admins" step="STEP 4"
+                        header-line="Add, Assign teachers to each Class room and Class sections" example-tag="">
+                    </c-default-card>
+                </lightning-layout-item>
+
+            <!-- </div> -->
+           
+             <!-- <div >  -->
+                <lightning-layout-item flexibility="auto"  padding="around-small">
+                    <c-default-card obj-api-name='Class__c' header="Add Class" step="STEP 4"
+                        header-line="Add Your Class Names as per your standards"
+                        example-tag="[for eg: LKG, UKG, Ist std, IIstd etc]">
+                    </c-default-card>
+                </lightning-layout-item>
+
+                <lightning-layout-item flexibility="auto"  padding="around-small">
+                    <c-default-card obj-api-name='ContactStudent' header="Add Student" step="STEP 5"
+                        header-line="Add your Student along with Parent Details and map your Sibling in Student Profile"
+                        example-tag="">
+                    </c-default-card>
+                </lightning-layout-item>
+
+                <lightning-layout-item flexibility="auto"  padding="around-small"  >
+                    <c-default-card obj-api-name='Admission__c' header="Create Admissions" step="STEP 6"
+                        header-line="Create an Admission process for the current year"
+                        example-tag="[the current annual period 2021-20]">
+                    </c-default-card>
+                </lightning-layout-item>
+            <!-- </div> -->
+      
+            <!-- <div class="resScreen"> -->
+                <lightning-layout-item flexibility="auto"  padding="around-small">
+                    <c-default-card obj-api-name='Subject_Course__c' header="Create Subjects" step="STEP 7"
+                        header-line="Create a class for the current year" example-tag="[SSLS, HSC, High School]">
+                    </c-default-card>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto"  padding="around-small">
+                    <c-default-card obj-api-name='Exam_Scheduler__c' header="Exam Schedule" step="STEP 8"
+                        header-line="Create Exam Schedule" example-tag="[SSLS, HSC, High School]">
+                    </c-default-card>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto"  padding="around-small"  >
+                    <c-default-card obj-api-name='Invoice__c' header="Invoice" step="STEP 9"
+                        header-line="Create invoice" example-tag="[SSLS, HSC, High School]">
+                    </c-default-card>
+                </lightning-layout-item>
+            <!-- </div> -->
+        </lightning-layout>
+
+
+    </lightning-card>
+</template>

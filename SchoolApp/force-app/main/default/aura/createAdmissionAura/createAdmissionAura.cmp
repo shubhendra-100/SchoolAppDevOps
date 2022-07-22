@@ -1,0 +1,5 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride"
+access="global">
+   
+    <c:createAdmission recordId="{!v.recordId}" ></c:createAdmission>
+</aura:component>

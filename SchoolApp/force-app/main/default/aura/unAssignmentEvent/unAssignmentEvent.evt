@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="Event template" >
+    <aura:attribute name="assignedSalesManagerAmount" type="Integer" description="to Update the unAssigned Amount" />
+</aura:event>

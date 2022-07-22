@@ -1,0 +1,30 @@
+.madding{
+    margin: 10px 0px;
+    padding: 10px;
+}
+.sIcon{
+    background-color: #4da574;
+    opacity: 75%;
+}
+
+.slds-p-horizontal--small{
+    text-align: left;
+    font-weight: normal;
+    
+}
+
+.smallScreen{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 1080px){
+    .smallScreen{
+        display: flex;
+        flex-direction: column;
+        grid-gap: 40px;
+    }
+}

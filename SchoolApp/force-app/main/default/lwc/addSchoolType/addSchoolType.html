@@ -1,0 +1,59 @@
+<template>
+    <lightning-button variant="brand" class="slds-m-left_x-small slds-p-horizontal_x-small"
+
+    icon-name="utility:adduser" title="Create School type" onclick={addSchoolModal}>
+
+    </lightning-button>
+    <template if:true={isAddSchool}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+        aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_medium">
+        <div class="slds-modal__container">
+            <div class="slds-clearfix">
+                <!-- <div class="slds-float_right">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                </div> -->
+
+
+
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeSchoolModal}>
+                        <lightning-icon icon-name="utility:close" onclick={closeSchoolModal} title="Close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+                        Create School type
+                    </h2>
+                </header>
+            </div>
+
+
+    <lightning-card style="margin-bottom: -10px;">
+        <lightning-layout class="slds-p-around_medium">
+            <lightning-layout-item>
+                <lightning-checkbox-group
+                label="Add School Type"
+                options={options}
+                value={value}
+                onchange={handleChange}></lightning-checkbox-group>
+            </lightning-layout-item>
+        </lightning-layout>
+        
+    </lightning-card>
+    <footer class="slds-modal__footer" >                
+        <lightning-button label="Cancel" class="slds-float_right slds-p-around_medium" variant="neutral" ></lightning-button>
+        <lightning-button label="Create" class="slds-float_right slds-p-around_medium" variant="brand"  onclick={createAccountdsf}></lightning-button>
+
+    </footer>
+</div>
+</section>
+<div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+    
+</template>

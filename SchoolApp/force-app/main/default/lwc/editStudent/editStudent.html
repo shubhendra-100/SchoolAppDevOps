@@ -1,0 +1,316 @@
+<template>
+    <section role="dialog" tabindex="-1" id="userApprovalModal" aria-labelledby="modal-heading-01" aria-modal="true"
+        aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_small">
+        <div class="slds-modal__container">
+
+            <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+                    onclick={closeModal}>
+                    <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small">
+                    </lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+                    Update Student Information
+                </h2>
+            </header>
+
+
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <lightning-record-edit-form record-id={recordId}  onsubmit={handleSubmit} object-api-name="Contact" >
+                    <lightning-messages> </lightning-messages>
+                    <lightning-card>
+
+                        <lightning-layout>
+                            <lightning-layout-item size="2">
+                                <div>
+                                    <template if:false={newFileWasUploaded}>
+                                        <lightning-icon icon-name="utility:user" style="zoom: 300%"
+                                            alternative-text="Upload an Image4" class="slds-m-left_x-small">
+                                        </lightning-icon>
+                                    </template>
+                                    <template if:true={newFileWasUploaded}>
+                                        <template for:each={uploadedFilesUrl} for:item="file">
+                                            <div key={file.id}>
+                                                <img src={file.id} />
+                                            </div>
+                                        </template>
+                                    </template>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="10">
+                                <div> Upload passport size photo>
+                                    (File size: max 4MB | Formats : .PNG , .JPG) </div>
+                                <span>
+                                    <span class="slds-m-top_medium slds-m-bottom_x-large">
+                                        <span class="slds-p-around_medium lgc-bg slds-m-left_x-small "
+                                            style="margin: 15px;">
+                                            <lightning-file-upload name="fileUploader" accept={acceptedFormats}
+                                                record-id={recordId} onuploadfinished={handleUploadFinished} multiple>
+                                            </lightning-file-upload>
+                                        </span>
+                                    </span>
+                                </span>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                        
+
+
+                        <lightning-accordion allow-multiple-sections-open onsectiontoggle={handleSectionToggle}
+                            active-section-name={activeSections}>
+
+
+                            <lightning-accordion-section name="A" label="Basic Information">
+
+                                <lightning-layout multiple-rows="true" class="slds-p-top_large">
+
+                                    <lightning-layout-item size="6" class="slds-p-around_xx-small">
+                                        <lightning-input-field field-name="MobilePhone" required>
+                                        </lightning-input-field>
+                                    </lightning-layout-item>
+
+
+                                    <lightning-layout-item size="6" class="slds-p-around_xx-small">
+                                        <!-- <lightning-input-field field-name="Enrollment_Id__c" required> </lightning-input-field> -->
+                                        <lightning-input-field field-name="Roll_Number__c" required>
+                                        </lightning-input-field>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="6" class="slds-p-around_xx-small">
+                                        <lightning-input-field field-name="Date_of_Joining__c" required>
+                                        </lightning-input-field>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="6" class="slds-p-around_xx-small">
+                                        <lightning-input-field field-name="FirstName" required> </lightning-input-field>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="6" class="slds-p-around_xx-small">
+                                        <lightning-input-field field-name="Middle_Name__c"> </lightning-input-field>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="6" class="slds-p-around_xx-small">
+                                        <lightning-input-field field-name="LastName" required> </lightning-input-field>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-accordion-section>
+
+
+
+
+
+
+                           
+
+
+                            <lightning-accordion-section name="B" label="Add Optional Details">
+
+                                <lightning-layout multiple-rows="true" class="slds-p-top_x-large">
+
+                                    <lightning-layout-item size="2" class="slds-p-around_xx-small">
+                                        <label style="margin-left: 8px;
+                                        font-size: 12px;">Class Name</label>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="4" class="slds-p-around_xx-small">
+                                        <c-custom-lookup obj-name="Class__c" selected-name={selectedName} is-value-selected=true onlookupselected={handleClassChange} filter="">
+                                        </c-custom-lookup>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="2" class="slds-p-around_xx-small">
+                                        <label style="margin-left: 5px;
+                                        font-size: 12px;" >Class Section</label>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="4" class="slds-p-around_xx-small">
+                                        <c-custom-lookup obj-name="section__c" selected-name={selectedSection} is-value-selected=true 
+                                        ondisablesection={disableSec} onlookupselected={handleClassSectionChange} disabled={disabled} filter={filter} >
+                                        </c-custom-lookup>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="6" class="slds-p-around_xx-small">
+                                        <lightning-input-field field-name="Email" required> </lightning-input-field>
+                                    </lightning-layout-item>
+
+                                
+
+
+                                    <lightning-layout-item size="6" class="slds-p-around_xx-small">
+                                        <lightning-input-field field-name="Date_of_Birth__c"> </lightning-input-field>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="6" class="slds-p-around_xx-small">
+                                        <lightning-input-field field-name="Gender__c"> </lightning-input-field>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="6" class="slds-p-around_xx-small">
+                                        <lightning-input-field field-name="Blood_Group__c"> </lightning-input-field>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-accordion-section>
+
+
+
+
+                            <lightning-accordion-section name="C" label="Current Address">
+
+                                <lightning-layout multiple-rows="true" class="slds-p-top_large">
+
+                                    <lightning-layout-item size="6" class="slds-p-horizontal_x-small">
+                                        <lightning-input-field field-name="Address1__c"> </lightning-input-field>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="6" class="slds-p-horizontal_x-small">
+                                        <lightning-input-field field-name="Address2__c"> </lightning-input-field>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="6" class="slds-p-around_xx-small">
+                                        <lightning-input-field field-name="Nationality__c"> </lightning-input-field>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="6" class="slds-p-around_xx-small">
+                                        <lightning-input-field field-name="State__c"> </lightning-input-field>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="6" class="slds-p-around_xx-small">
+                                        <lightning-input-field field-name="Pincode__c"> </lightning-input-field>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="6" class="slds-p-around_xx-small">
+                                        <lightning-input-field field-name="City_Town__c"> </lightning-input-field>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+
+
+
+                                <lightning-layout size="12">
+                                    <lightning-layout-item size="6" class="slds-p-horizontal_x-small slds-p-top_large">
+                                        <lightning-input type="checkbox"
+                                            label="Mark Current address as Permanent Address too" name="input1"
+                                            onchange={handleCheckBox}>
+                                        </lightning-input>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-accordion-section>
+                          
+
+                            <lightning-accordion-section name="D" label="Permanent Address">
+
+
+                                <lightning-layout multiple-rows="true" class="slds-p-top_large">
+
+                                    <lightning-layout-item size="6" class="slds-p-horizontal_x-small">
+                                        <lightning-input-field field-name="Address1__c"> </lightning-input-field>
+                                    </lightning-layout-item>
+
+
+                                    <lightning-layout-item size="6" class="slds-p-horizontal_x-small">
+                                        <lightning-input-field field-name="Address2__c"> </lightning-input-field>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="6" class="slds-p-around_xx-small">
+                                        <lightning-input-field field-name="Nationality__c"> </lightning-input-field>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="6" class="slds-p-around_xx-small">
+                                        <lightning-input-field field-name="State__c"> </lightning-input-field>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="6" class="slds-p-around_xx-small">
+                                        <lightning-input-field field-name="Pincode__c"> </lightning-input-field>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="6" class="slds-p-around_xx-small">
+                                        <lightning-input-field field-name="City_Town__c"> </lightning-input-field>
+                                    </lightning-layout-item>
+
+                                </lightning-layout>
+                            </lightning-accordion-section>
+
+                            <lightning-accordion-section name="E" label="Parents Information">
+                                <lightning-layout multiple-rows="true" class="slds-p-top_large">
+
+                                    <lightning-layout-item size="4" class="slds-p-around_xx-small">
+                                        <lightning-input-field field-name="Father_s_Contact_Number__c"
+                                            placeholder="Father's Contact">
+                                        </lightning-input-field>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="4" class="slds-p-around_xx-small">
+                                        <lightning-input-field field-name="Father_s_Name__c"
+                                            placeholder="Father's Name">
+                                        </lightning-input-field>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="4" class="slds-p-around_xx-small">
+                                        <lightning-input-field field-name="Father_s_Occupation__c"
+                                            placeholder="Father's Occupation">
+                                        </lightning-input-field>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="4" class="slds-p-around_xx-small">
+                                        <lightning-input-field field-name="Mother_s_Contact_Number__c"
+                                            placeholder="Mother's Contact">
+                                        </lightning-input-field>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="4" class="slds-p-around_xx-small">
+                                        <lightning-input-field field-name="Mother_s_Name__c"
+                                            placeholder="Mother's Name">
+                                        </lightning-input-field>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="4" class="slds-p-around_xx-small">
+                                        <lightning-input-field field-name="Mother_s_Occupation__c"
+                                            placeholder="Mother's Occupation">
+                                        </lightning-input-field>
+                                    </lightning-layout-item>
+
+
+                                    <lightning-layout-item size="4" class="slds-p-around_xx-small ">
+                                        <lightning-input-field field-name="Guardian_s_Contact_Number__c"
+                                            placeholder="Guardian's Contact">
+                                        </lightning-input-field>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="4" class="slds-p-around_xx-small ">
+                                        <lightning-input-field field-name="Guardian_s_Name__c"
+                                            placeholder="Guardian's Name">
+                                        </lightning-input-field>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="4" class="slds-p-around_xx-small ">
+                                        <lightning-input-field field-name="Guardian_s_Occupation__c"
+                                            placeholder="Guardian's Occupation">
+                                        </lightning-input-field>
+                                    </lightning-layout-item>
+
+                                </lightning-layout>
+
+                            </lightning-accordion-section>
+
+
+                        </lightning-accordion>
+
+                    </lightning-card>
+
+                    <div class="slds-docked-form-footer slds-clearfix custom">
+                        <footer class="slds-float_right  slds-card__footer slds-modal__footer">
+                            <lightning-button type="submit" name="update" variant="brand" label="Update"
+                                class="slds-var-m-left_medium "></lightning-button>
+                            <lightning-button label="Cancel" onclick={closeModal} class="slds-var-m-left_medium ">
+                            </lightning-button>
+
+                        </footer>
+                    </div>
+
+                </lightning-record-edit-form>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+  
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

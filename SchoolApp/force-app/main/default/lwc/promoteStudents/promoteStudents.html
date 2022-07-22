@@ -1,0 +1,75 @@
+<template>
+    <lightning-card>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item size="6" class="slds-p-around_medium">
+                <lightning-combobox
+                name="progress"
+                label="Current Academic Year"
+                placeholder="Select "
+                options={AYoptions}
+                onchange={handleFromAY} required ></lightning-combobox>
+        
+            </lightning-layout-item>
+
+        <lightning-layout-item size="6" class="slds-p-around_medium">
+            <lightning-combobox
+            name="progress"
+            label="Next Academic Year"
+            placeholder="Select "
+            options={AYoptions}
+            onchange={handleToAY} required></lightning-combobox>
+          </lightning-layout-item>
+            
+       <lightning-layout-item size="3" class="slds-p-around_medium">
+            <lightning-combobox
+            name="progress"
+            label="From Class"
+            placeholder="Select "
+            options={ClassOptions}
+            value={Class}
+            onchange={handleFromClass} required ></lightning-combobox>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="3" class="slds-p-around_medium">
+            <lightning-combobox
+            name="progress"
+            label="From Section"
+            placeholder="Select "
+            options={FromSectionOptions}
+            onchange={handleFromSection} required></lightning-combobox>
+        </lightning-layout-item>
+    
+        <lightning-layout-item size="3" class="slds-p-around_medium">
+            <lightning-combobox
+            name="progress"
+            label="To Class"
+            placeholder="Select "
+            options={ClassOptions}
+            onchange={handleToClass} required ></lightning-combobox>
+        </lightning-layout-item>
+    
+        <lightning-layout-item size="3" class="slds-p-around_medium">
+            <lightning-combobox
+            name="progress"
+            label="To Section"
+            placeholder="Select "
+            options={ToSectionOptions}
+            onchange={handleToSection} required ></lightning-combobox>
+            
+            
+            
+        </lightning-layout-item>
+
+        <lightning-layout-item size="12">
+            <lightning-datatable
+            key-field="Id"
+            data={data}
+            columns={columns}
+            onrowselection={handleSelectedRows}>
+    </lightning-datatable>
+    <lightning-button variant="Netural" label="CANCEL" title="Primary action" onclick={navigateToTabPage} class="slds-var-m-left_medium slds-p-around_small slds-float_right"></lightning-button>
+      <lightning-button variant="Brand" label="PROMOTE STUDENTS" title="Primary action" onclick={promoteStudentss} class="slds-var-m-left_medium slds-p-around_small  slds-float_right"></lightning-button>
+    </lightning-layout-item>
+        </lightning-layout>
+        </lightning-card>
+</template>

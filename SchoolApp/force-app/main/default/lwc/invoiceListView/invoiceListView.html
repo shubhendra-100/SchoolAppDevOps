@@ -1,0 +1,191 @@
+<template>
+<lightning-card class="slds-p-around_medium">
+    <lightning-layout multiple-rows="true"  >
+        <!-- flexibility="auto" padding="around-small" -->
+        <lightning-layout-item  class="slds-p-around_Small" size="6" >
+            <div >
+                <span >
+                    <lightning-formatted-number style="margin-left: 15px;" value="12.34" format-style="currency" currency-code="USD"></lightning-formatted-number>
+                    <span  style="font-weight:bold ;">  Unpaid</span>
+                    <span class="slds-p-around_medium" style="color:dimgray;" >  Last 365 days</span>
+                </span>
+                <div>
+                    <div class="slds-float_left slds-p-around_medium">
+                        <lightning-formatted-number style="font-weight:bold ;" value="0.00" format-style="currency" currency-code="USD"></lightning-formatted-number>
+                        <p> Overdue</p>
+                    </div>
+                    <div class=" slds-float_right slds-p-around_medium">
+                        <lightning-formatted-number style="font-weight:bold ;" value="4800.00" format-style="currency" currency-code="USD"></lightning-formatted-number>
+                        <p> Not due yet</p>
+                    </div>
+
+                </div>
+                
+                <div class="slds-m-top_xx-large slds-p-around_small slds-p-top_large">
+                    <lightning-progress-bar style="margin-left: 15px;" size="large"></lightning-progress-bar>
+
+                </div>
+            </div>
+        </lightning-layout-item>
+
+
+        <!-- <lightning-layout-item size="2"> </lightning-layout-item> -->
+
+
+        <lightning-layout-item class="slds-p-around_Small" size="6">
+            <div >
+                <span >
+                    <lightning-formatted-number style="margin-left: 15px;" value="150000" format-style="currency" currency-code="USD"></lightning-formatted-number>
+                    <span  style="font-weight:bold ;">  Paid</span>
+                    <span class="slds-p-around_medium" style="color:dimgray;" >  Last 30 days</span>
+                </span>
+                <div>
+                    <div class="slds-float_left slds-p-around_medium">
+                        <lightning-formatted-number style="font-weight:bold ;" value="0.00" format-style="currency" currency-code="USD"></lightning-formatted-number>
+                        <p> Not deposited</p>
+                    </div>
+                    <div class=" slds-float_right slds-p-around_medium">
+                        <lightning-formatted-number style="font-weight:bold ;" value="150000.00" format-style="currency" currency-code="USD"></lightning-formatted-number>
+                        <p> Deposited</p>
+                    </div>
+
+                </div>
+                
+                <div class="slds-m-top_xx-large slds-p-around_small slds-p-top_large">
+                    <lightning-progress-bar class="slds-p-around_small" value="100" size="large"></lightning-progress-bar>
+
+                </div>
+            </div>
+        </lightning-layout-item>
+
+
+        <lightning-layout-item  class="slds-p-around_medium" size="2">
+            <!-- <div>
+                <p> -->
+
+                    <lightning-combobox
+                    name="Batch Actions"
+                    label="Batch Actions"
+                    value={BatchActionsvalue}
+                    placeholder="Batch Actions"
+                    options={options}
+                    onchange={handleChange} >
+                </lightning-combobox>
+        </lightning-layout-item>
+
+
+                <lightning-layout-item  class="slds-p-around_medium" size="2">
+                <lightning-combobox
+                    name="Status"
+                    label="Status"
+                    value={Statusvalue}
+                    placeholder="Status"
+                    options={options1}
+                    onchange={handleChange} >
+                </lightning-combobox>
+                </lightning-layout-item>
+
+
+
+                <lightning-layout-item  class="slds-p-around_medium" size="2">
+                <lightning-combobox
+                    name="Date"
+                    label="Date"
+                    value={Datevalue}
+                    placeholder="Date"
+                    options={options2}
+                    onchange={handleChange} >
+                </lightning-combobox>
+            </lightning-layout-item>
+<!--                     
+            </p>
+        </div> -->
+
+  
+            <lightning-layout-item size="2"></lightning-layout-item>
+
+            <lightning-layout-item class="slds-p-around_medium" size="4">
+            <lightning-button-group class="slds-m-top_large">
+
+                    <lightning-button label="Create Invoice" onclick={openCreateInvoice}></lightning-button>
+                    <lightning-button-menu   alternative-text="Show menu"></lightning-button-menu>
+                </lightning-button-group>
+
+            </lightning-layout-item>
+
+            <lightning-layout-item size="12" padding="around-small" >
+                <lightning-datatable
+                key-field="id"
+                data={data}
+                columns={columns}
+                onrowaction={handleRowAction}>
+        </lightning-datatable>
+
+        
+            </lightning-layout-item>
+
+    </lightning-layout>
+
+
+    <template if:true={createInvoice}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-modal_large slds-fade-in-open">
+            <div class="slds-modal__container">
+
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeCreateInvoice}>
+                       <lightning-icon icon-name="utility:close"
+                          alternative-text="close"
+                          variant="inverse"
+                          size="small" ></lightning-icon>
+                       <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Create Invoice</h2>
+                 </header>
+
+
+                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">           
+                        <c-create-invoice></c-create-invoice>           
+                 </div>
+                 <footer  class="slds-modal__footer">
+                     <lightning-layout>
+                        
+                                                <lightning-layout-item size="2">
+                        
+                                                </lightning-layout-item>
+                        <!-- <lightning-layout-item size="2">
+
+                        </lightning-layout-item> -->
+
+                        <lightning-layout-item size="2">
+                            <lightning-badge label="Print or Preview" class=""></lightning-badge>
+                        </lightning-layout-item>
+                        
+                        <lightning-layout-item size="2">
+                            <lightning-badge label="Customize" class=""></lightning-badge>
+                        </lightning-layout-item>
+                        
+                        <lightning-layout-item size="2">
+                            <lightning-badge label="Make recurring" class=""></lightning-badge>
+                    </lightning-layout-item>
+                        
+                        <lightning-layout-item size="4">
+                            <button class="slds-button slds-button_brand" onclick={submitDetails} title="Save and Send">Save and Send</button>
+                            <button class="slds-button slds-button_brand" onclick={submitDetails} title="Save">Save</button>
+                            <button class="slds-button slds-button_neutral" onclick={closeCreateInvoice} title="Cancel">Cancel</button>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                    
+                 </footer>
+
+
+            </div>
+        </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+
+    </template>
+
+
+
+</lightning-card>
+
+</template>

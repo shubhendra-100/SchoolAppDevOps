@@ -1,0 +1,23 @@
+.modal{
+    display: block !important; /* I added this to see the modal, you don't need this */
+ } 
+
+ Important part
+.modal-dialog{
+    overflow-y: initial !important
+}
+.modal-body{
+    height: 80vh;
+    overflow-y: auto;
+}
+
+
+.custom{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.slds-float_right{
+    border: none;
+    box-shadow: none;
+}

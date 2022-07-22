@@ -1,0 +1,83 @@
+<template>
+
+    <!-- lightning button for open modal window -->
+    <lightning-button variant="brand" label="Exam Scheduler" title="Exam Scheduler" onclick={openModal}
+        class="slds-m-left_x-small">
+    </lightning-button>
+    <!--Use template if:true to display/hide popup based on isModalOpen value-->
+    <template if:true={isModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_medium">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <div class="slds-clearfix">
+                    <div class="slds-float_right">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                            title="Close" onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                                size="small"></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                    </div>
+                </div>
+
+                <lightning-card class="slds-card__header " label="Examination List">
+                    <lightning-layout size="12">
+
+                        <lightning-layout-item size="4" class="slds-p-left_small">
+
+                            <lightning-icon icon-name="action:new_group" class="slds-p-left_small  "
+                                alternative-text="Clone" title="Clone" onclick={navigate}></lightning-icon>
+
+                            <span class="slds-p-horizontal_small slds-p-around_medium" style="font-size: medium;
+                font-weight: bold; ">Examination Scheduler</span>
+
+                        </lightning-layout-item>
+
+
+                    </lightning-layout>
+
+                    <lightning-layout size="12" multiple-rows>
+                        <lightning-layout-item size="6" class="slds-p-around_x-small">
+                            <lightning-combobox name="Class" label="Class" options={options} onchange={classRecords}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item size="6" class="slds-p-around_x-small">
+                            <lightning-input type="text" label="Exam Name" onchange={handleChange}>
+                            </lightning-input>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item size="6" class="slds-p-around_x-small">
+                            <lightning-input type="datetime" label="Start Date" onchange={handleChange}>
+                            </lightning-input>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item size="6" class="slds-p-around_x-small">
+                            <lightning-input type="datetime" label="End Date" onchange={handleChange}>
+                            </lightning-input>
+                        </lightning-layout-item>
+                    </lightning-layout>
+
+
+
+                    <div slot="footer" class="slds-clearfix slds-p-top_xxx-small ">
+                        <lightning-button label="Cancel" onclick={closeModal}
+                            class="slds-var-m-left_xx-small slds-float_right">
+                        </lightning-button>
+
+                        <lightning-button label="Create" variant="brand" onclick={saveHandler}
+                            class="slds-var-m-left_xx-small slds-float_right"></lightning-button>
+
+
+                    </div>
+
+
+                </lightning-card>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+</template>

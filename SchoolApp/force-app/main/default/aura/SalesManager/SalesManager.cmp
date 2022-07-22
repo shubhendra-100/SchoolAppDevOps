@@ -1,0 +1,133 @@
+<aura:component controller="SalesManagerController" Implements="flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride" access="global">
+    <!--Init handler which is call doInit js function on component Load-->  
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!--Event handler for Add and Delete Row Event which is fire from Child Component-->  
+    <aura:handler name="updateUnAssignementAmount" event="c:unAssignmentEvent" action="{!c.updateUnAssignement}"/>
+    <aura:handler name="DeleteRowEvt" event="c:DeleteRowEvt" action="{!c.removeDeletedRow}"/>
+    <!--<aura:handler name="AddRowEvt" event="c:AddNewRowEvt" action="{!c.addNewRow}"/>-->
+    <aura:attribute name="showError" type="Boolean" default="false" />
+    <aura:attribute name="TargetExceededError" type="Boolean" default="false" />
+    <!--Aura Attribute for store Contact Object List as Array-->    
+    <aura:attribute name="salesManagerList" type="Target_Owner__c[]"/> 
+    <aura:attribute name="addedRows" type="String[]"/>  
+    <aura:attribute name="targetAmount" type="Integer" default='0'/>
+    <aura:attribute name="assignedTargetAmount" type="Integer" default='0'/>
+    <aura:attribute name="selectedTarget" type="Target__c"/>
+    <aura:attribute name="userList" type="List" default="[]"/>  
+    <aura:attribute name="selectedusers" type="List" default="[]"/> 
+    <aura:attribute name="usersMap" type="map"/>
+    <aura:attribute name="message" type="String"/>
+    <aura:attribute name="dateNotification" type="String"/>
+    <aura:attribute name="showSuccess" type="Boolean" default="false" />
+
+    <!--<aura:attribute name="targetQuarter" type="String"/>-->
+    
+    <!--Header Part-->        
+    <div class="slds-page-header">
+        <lightning:messages />
+        <h1 class="slds-page-header__title">New SalesManager</h1>
+        
+        <lightning:messages />
+        <aura:if isTrue="{!v.showSuccess}" >
+        <ui:message  title="Info" severity="info" closable="false">
+            {!v.message}
+        </ui:message>
+         </aura:if>
+        <aura:if isTrue="{!v.TargetExceededError}" >
+            <ui:message  title="Error" severity="error" closable="true">
+                Target Amount is mandotory and should not be a negative value.
+            </ui:message>
+            <aura:set attribute="else">
+                <aura:if isTrue="{!v.showError}">
+                    
+                    <!-- Show the message to ui -->
+                    <ui:message  title="Error" severity="error" closable="false">
+                        Assigned amount: <b> {!v.assignedTargetAmount} $ </b> should not exceed the Target amount {!v.targetAmount} $
+                    </ui:message>
+                    
+                    <aura:set attribute="else">
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer"> 
+                            <thead>
+                                <tr class="slds-text-title_caps">
+                                    <th >
+                                        <lightning:recordEditForm  objectApiName="Target_Owner__c">
+                                            <lightning:inputField aura:id="currentTarget" fieldName="Target__c" value="{!v.selectedTarget}" onchange="{!c.refresh}" />
+                                        </lightning:recordEditForm><br></br>
+                                        {!v.dateNotification}
+                                    </th>
+                                    <th >
+                                        
+                                        <lightning:dualListbox aura:id="selectOptions"
+                                                               name="Skills"
+                                                               sourceLabel="Users" 
+                                                               selectedLabel="Selected Users" 
+                                                               options="{! v.userList}"
+                                                               value="{! v.selectedusers }"
+                                                               />           
+                                    </th>
+                                    <th style="text-align: left">
+                                        <lightning:button variant="brand" label="Search" title="Brand action" onclick="{!c.addSalesManagers}" />
+                                        <aura:if isTrue="{!v.salesManagerList.length == 0}" ><button class="slds-button slds-button_neutral" aura:id="saveButton" onclick="{!c.Cancel}">Cancel</button></aura:if>
+
+                                    </th>
+                                </tr>
+                                
+                            </thead>
+                        </table>   
+                        
+                    </aura:set>
+                    
+                </aura:if>    
+            </aura:set>
+        </aura:if>
+        
+    </div>
+    
+    <!--Table Part-->           
+    
+    <aura:if isTrue="{!v.salesManagerList.length > 0}" >
+        <table class="slds-table slds-table_bordered slds-table_cell-buffer"> 
+            <thead>
+                <tr class="slds-text-title_caps">
+                    <th scope="col">
+                        <div class="slds-truncate">S.No</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="Target">Target : {!v.targetAmount} $</div>
+                    </th>
+                    
+                    <th scope="col">
+                        <div class="slds-truncate" title="Assigned Target Amount"><b class="slds-text-color_error slds-text-heading_madium">*</b>Assigned Target : {!v.assignedTargetAmount} $</div>
+                    </th>
+                    
+                </tr>
+            </thead>   
+            <tbody>
+                <!--Iterate the child Component for display Table rows 
+               with pass the List Item Index for track the Every child Component 
+               and pass each List Contact Instance -->         
+                <aura:iteration items="{!v.salesManagerList}" var="item" indexVar="index">
+                    <c:DynamicSalesManagerRow SalesManagerInstance="{!item}" rowIndex="{!index}" />
+                </aura:iteration>
+            </tbody>
+        </table>
+        <table class="slds-table slds-table_bordered slds-table_cell-buffer"> 
+            <thead>
+                <tr class="slds-text-title_caps">
+                    <th scope="col" style="text-align: center;Padding-left:200px">
+                        <div class="slds-truncate" title="UnAssigned">Un Assigned Target Amount :  {!if(v.targetAmount != null ,(v.targetAmount - v.assignedTargetAmount),0)} $</div>
+                    </th>
+                    <th  style="text-align: Right; " >
+                        <button class="slds-button slds-button_neutral" aura:id="saveButton" onclick="{!c.Cancel}">Cancel</button>
+                        <!--<button class="slds-button slds-button_neutral" aura:id="saveandNewButton" onclick="{!c.SaveAndNew}">Save &amp; New</button>-->
+                        <lightning:button variant="neutral" label="Save &amp; New" title="Brand action" onclick="{! c.SaveAndNew }" />
+                        <lightning:button variant="brand" label="Save" title="Brand action" onclick="{! c.Save }" />
+                    </th>
+                </tr>
+            </thead>
+        </table>    
+    </aura:if>
+    <br/>
+    
+</aura:component>

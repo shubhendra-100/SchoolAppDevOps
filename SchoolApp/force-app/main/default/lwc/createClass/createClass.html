@@ -1,0 +1,74 @@
+<template>
+    <lightning-button variant="brand" icon-name="utility:adduser" title="Create class" onclick={openModal}
+        class="slds-m-left_medium">
+    </lightning-button>
+    <template if:true={showModal}>
+
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-modal_medium slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small" class="slds-float_right" onclick={closePopup}></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Create Class</h2>
+                </header>
+                <div class="slds-modal__content" id="modal-content-id-1">
+
+                    <lightning-card>
+
+                        <lightning-layout size="12">
+                            <lightning-layout-item size="6">
+                                <div class="slds-p-around_medium lgc-bg">
+                                    <label class="slds-form-element__label slds-no-flex" for="department">
+                                        <abbr title="required" class="slds-required">*</abbr>Department
+                                    </label>
+                                    <c-custom-lookup filter='' throw-error={isError} id="department" obj-name='Department__c'
+                                        onlookupselected={selectedName}></c-custom-lookup>
+
+                                </div>
+                            </lightning-layout-item>
+
+                            <lightning-layout-item size="6">
+                                <div class="slds-p-around_medium lgc-bg">
+
+                                    <!-- <lightning-combobox name="ClassName" label="Class Name" value={value}
+                                        placeholder="Class Name" options={options} class="validate" required onchange={handleClassName}>
+                                    </lightning-combobox> -->
+                                    <lightning-input name="ClassName" type="text" label="Class Name" value={value}
+                                        onchange={handleClassName} placeholder="Class Name" class="validate" required>
+                                    </lightning-input>
+                                </div>
+                            </lightning-layout-item>
+
+                        </lightning-layout>
+                        <lightning-layout size="12">
+                            <lightning-layout-item size="12">
+                                <div class="slds-p-around_medium lgc-bg" style="padding-top: 0px">
+                                    <lightning-input type="text" label="Class Section" value={classSection}
+                                        onchange={handleClassSection} class="validate" required></lightning-input>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-card>
+                </div>
+                <footer class="slds-modal__footer">
+                    <div slot="footer" class="slds-clearfix slds-p-top_medium ">
+                        <lightning-button title="Cancel" label="Cancel" variant="Neutral"
+                            onclick={closeModal} class="slds-var-m-left_medium slds-float_right"></lightning-button>
+
+                        <lightning-button title="Save" label="Save" variant="brand"
+                            onclick={handleClick} class="slds-var-m-left_medium slds-float_right"></lightning-button>
+
+
+                    </div>
+                </footer>
+            </div>
+        </section>
+         <div class="slds-backdrop slds-backdrop_open"></div> 
+
+    </template>
+</template>

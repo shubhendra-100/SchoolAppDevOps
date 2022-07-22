@@ -1,0 +1,73 @@
+<template>
+
+
+    <!--  
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_medium">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+                        Examination Scheduler
+                    </h2>
+                </header> -->
+    <lightning-card>
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+            <lightning-layout size="12" multiple-rows class="slds-p-around_medium">
+                <lightning-layout-item size="6" class="slds-p-around_x-small">
+
+                    <!-- <c-multi-select-lookup label="Class Name" field-name="Name" object-name="Class__c"
+                        onuserselected={handleSelectValue} selected-from-parent={prevClass}></c-multi-select-lookup> -->
+                        <lightning-input type="text" label="Class Name" name="Class__c" value={ClassName} disabled>
+                        </lightning-input>
+
+                </lightning-layout-item>
+
+              
+                <lightning-layout-item size="6" class="slds-p-around_x-small">
+                    <lightning-input type="text" label="Exam Name" name="Name" value={Name} onchange={handleChange}>
+                    </lightning-input>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="6" class="slds-p-around_x-small">
+                    <lightning-input type="date" label="Start Date" name="Start_Date__c" value={StartDate}
+                        onchange={handleChange}>
+                    </lightning-input>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="6" class="slds-p-around_x-small">
+                    <lightning-input type="date" label="End Date" name="End_Date__c" value={EndDate}
+                        onchange={handleChange}>
+                    </lightning-input>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+
+        <!-- <footer class="slds-modal__footer"> -->
+            <div slot="footer" class="slds-clearfix slds-p-top_xxx-small ">
+                <lightning-button label="Cancel" onclick={closeModal} class="slds-var-m-left_small slds-float_right">
+                </lightning-button>
+
+                <lightning-button label="Update" variant="brand" onclick={updateHandler}
+                    class="slds-var-m-left_xx-small slds-float_right"></lightning-button>
+            </div>
+        <!-- </footer> -->
+        <!-- <footer class="slds-modal__footer">
+                    <div slot="footer" class="slds-clearfix slds-p-top_xxx-small ">
+                        <lightning-button label="Cancel" onclick={closeModal}
+                            class="slds-var-m-left_small slds-float_right"></lightning-button>
+
+                        <lightning-button label="Create" variant="brand" onclick={saveHandler}
+                            class="slds-var-m-left_xx-small slds-float_right"></lightning-button>
+                    </div>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div> -->
+    </lightning-card>
+</template>

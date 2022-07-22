@@ -1,0 +1,35 @@
+<template>
+    <!-- <lightning-card> -->
+        <lightning-record-edit-form record-id={recordsId} object-api-name="section__c" onsuccess={handleSuccess}>
+
+            <lightning-messages></lightning-messages>
+
+            <lightning-layout class="slds-m-top_medium">
+                <lightning-layout-item size="6" class="slds-p-horizontal_x-small">
+                    <!-- <lightning-input name="Class Name" type="text" label="Class Name" value={className} required></lightning-input> -->
+                    <lightning-input-field field-name="Class__c" required></lightning-input-field>
+                </lightning-layout-item>
+                <lightning-layout-item size="6" class="slds-p-horizontal_x-small">
+                    <!-- <lightning-input name="Class Section" type="text" label="Class Section" value={classSection} onchange={handleChange} required></lightning-input> -->
+                    <lightning-input-field field-name="Name" required> </lightning-input-field>
+                </lightning-layout-item>
+            </lightning-layout>
+            <!-- <lightning-layout class="slds-m-bottom_medium">
+                <lightning-layout-item size="6" class="slds-p-horizontal_x-small">
+                    <lightning-input name="Department" type="text" label="Department" value={department} required></lightning-input>
+                    <lightning-input-field field-name="Name" class="validate" required></lightning-input-field>
+                </lightning-layout-item>
+            </lightning-layout> -->
+
+            <footer class="slds-modal__footer">
+                <div slot="footer" class="slds-clearfix slds-p-top_xmedium ">
+                    <lightning-button label="Cancel" onclick={closeModal}
+                        class="slds-var-m-left_medium slds-float_right"></lightning-button>
+                    <lightning-button type="submit" name="update" variant="brand" label="Update" 
+                        class="slds-var-m-left_medium slds-float_right"></lightning-button>
+                </div>
+            </footer>
+
+        </lightning-record-edit-form>
+    <!-- </lightning-card> -->
+</template>

@@ -1,0 +1,8 @@
+<template>
+    <div class="slds-modal__header">
+        <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">School Map Location</h1>
+    </div>
+    <template if:true={mapMarkers}>
+    <lightning-map map-markers={mapMarkers} zoom-level= 8></lightning-map>
+    </template>
+</template>

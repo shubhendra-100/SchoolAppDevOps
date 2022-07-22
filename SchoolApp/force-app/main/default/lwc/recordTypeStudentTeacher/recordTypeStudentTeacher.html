@@ -1,0 +1,472 @@
+<template>
+    <lightning-layout size="12">
+        <lightning-layout-item size="12">
+
+            <lightning-quick-action-panel header="Select Record Type" style="font-weight:bold; ">
+
+                <lightning-combobox name="Record Type" label="Select a Record Type" value={value}
+                    placeholder="Select Record Type" options={options} onchange={handleChange}>
+                </lightning-combobox>
+
+                <template if:true={teacherView}>
+                    <!-- <div class="slds-m-vertical_medium">
+                        <lightning-card title="ADD TEACHER" icon-name="action:add_contact">
+                            <lightning-layout size="12">
+
+                                <lightning-layout-item size="6" class="slds-p-horizontal_x-small">
+                                    <lightning-input type="text" label="Teacher Name" placeholder="Teacher Name"
+                                        required></lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="6" class="slds-p-horizontal_x-small">
+                                    <lightning-combobox label="Department" value={value}
+                                        placeholder="Enter Your Department" options={options11} >
+
+                                    </lightning-combobox>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                            <lightning-layout size="12">
+                                <lightning-layout-item size="6" class="slds-p-horizontal_x-small">
+                                    <lightning-input type="email" label="Email Id" placeholder="Email Id"  required></lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="6" class="slds-p-horizontal_x-small">
+                                    <lightning-input type="tel" label="Mobile" placeholder="Mobile" pattern="[0-9]{10}"
+                                         required></lightning-input>
+                                </lightning-layout-item>
+                            </lightning-layout>
+
+                            <div slot="footer" class="slds-clearfix slds-p-top_xxx-small ">
+                                <lightning-button label="Cancel" onclick={cancelHandler}
+                                    class="slds-var-m-left_xx-small slds-float_right">
+                                </lightning-button>
+                                <lightning-button label="Save" variant="brand" onclick={saveHandler}
+                                    class="slds-var-m-left_xx-small slds-float_right"></lightning-button>
+                            </div>
+
+
+                        </lightning-card>
+                    </div> -->
+
+                    <c-add-teacher></c-add-teacher>
+
+                </template>
+
+                <!-- /////////////////////////////////////// -->
+
+                <template if:true={studentview}>
+                    <div class="slds-m-vertical_medium">
+
+                        <lightning-card title="Add Student Manually" class="slds-p-bottom_xx-small">
+                            <lightning-layout size="12">
+                                <lightning-layout-item size="2">
+                                    <div>
+                                        <lightning-icon icon-name="utility:user" style="zoom: 300%"
+                                            alternative-text="Upload an Image4" class="slds-m-left_x-small">
+                                        </lightning-icon>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="10">
+
+                                    <div> Upload passport size photo>
+                                        (File size: max 4MB | Formats : .PNG , .JPG) </div>
+                                    <span>
+                                        <span class="slds-m-top_medium slds-m-bottom_x-large">
+                                            <span class="slds-p-around_medium lgc-bg slds-m-left_x-small "
+                                                style="margin: 15px;">
+                                                <lightning-input type="file"></lightning-input>
+                                            </span>
+                                        </span>
+                                    </span>
+                                </lightning-layout-item>
+
+                            </lightning-layout>
+
+                            <lightning-layout size="12" class="slds-m-top_medium slds-badge slds-p-horizontal_medium">
+                                <lightning-layout-item size="12">
+                                    <!-- <div class="slds-m-top_medium slds-badge slds-p-horizontal_medium"> -->
+                                    <span>
+                                        <lightning-badge label="Basic Information"
+                                            style="font-weight: bold; font-size:medium ">
+                                        </lightning-badge>
+                                        <lightning-button-icon icon-name="utility:down" slot="actions"
+                                            class=" slds-clearfix slds-float_right"></lightning-button-icon>
+                                    </span>
+
+                                    <!-- </div> -->
+                                </lightning-layout-item>
+                            </lightning-layout>
+                            <lightning-layout size="12" class="slds-p-top_large">
+
+                                <lightning-layout-item size="4" class="slds-p-horizontal_x-small">
+                                    <lightning-input label="Mobile Number" type="tel"
+                                        placeholder="Enter your Mobile Number" pattern="[0-9]{10}" required>
+                                    </lightning-input>
+                                </lightning-layout-item>
+
+                                <lightning-layout-item size="4" class="slds-p-horizontal_x-small">
+                                    <lightning-input label="Enrollment Id" type="Id" value="             @OXF652"
+                                        pattern="[a-z]+@OXF652" required></lightning-input>
+                                </lightning-layout-item>
+
+                                <lightning-layout-item size="4" class="slds-p-horizontal_x-small">
+                                    <lightning-input label="Date of Admission" type="date"
+                                        placeholder="Date of Admission" required>
+                                    </lightning-input>
+                                </lightning-layout-item>
+
+                            </lightning-layout>
+
+                            <lightning-layout size="12" class="slds-p-top_x-small">
+
+                                <lightning-layout-item size="4" class="slds-p-horizontal_x-small">
+                                    <lightning-input type="text" label="First Name" placeholder="First Name" required>
+                                    </lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="4" class="slds-p-horizontal_x-small">
+                                    <lightning-input type="text" label="Middle Name" placeholder="Middle Name">
+                                    </lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="4" class="slds-p-horizontal_x-small">
+                                    <lightning-input type="text" label="Last Name" placeholder="Last Name">
+                                    </lightning-input>
+                                </lightning-layout-item>
+                            </lightning-layout>
+
+                            <lightning-layout size="12" class="slds-m-top_medium slds-badge slds-p-horizontal_medium">
+                                <lightning-layout-item size="12">
+                                    <!-- <div class="slds-m-top_medium slds-badge slds-p-horizontal_medium"> -->
+                                    <span>
+                                        <lightning-badge label="Add Optional Details"
+                                            style="font-weight: bold; font-size:medium ">
+                                        </lightning-badge>
+                                        <lightning-button-icon icon-name="utility:down" slot="actions"
+                                            class=" slds-clearfix slds-float_right"></lightning-button-icon>
+                                    </span>
+
+                                    <!-- </div> -->
+                                </lightning-layout-item>
+                            </lightning-layout>
+                            <lightning-layout size="12" class="slds-p-top_x-small">
+                                <lightning-layout-item size="6" class="slds-p-horizontal_x-small">
+                                    <lightning-combobox name="Select Class" label="Class" value={value}
+                                        placeholder="Select Class" options={options1} onchange={handleChange}>
+                                    </lightning-combobox>
+
+                                </lightning-layout-item>
+
+                            </lightning-layout>
+                            <lightning-layout size="12" class="slds-p-top_x-small">
+                                <lightning-layout-item size="6" class="slds-p-horizontal_x-small">
+                                    <lightning-input type="email" label="Email Address" placeholder="Enter Your Email"
+                                        pattern="[A-Za-z0-9._-]+@[a-z0-9-]+.[a-z]"></lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="6" class="slds-p-horizontal_x-small">
+                                    <lightning-input type="tel" label="Roll Number" placeholder="Enter Your RollNumber"
+                                        pattern="[0-9]{5}">
+                                    </lightning-input>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                            <lightning-layout size="12" class="slds-p-top_x-small">
+                                <lightning-layout-item size="6" class="slds-p-horizontal_x-small">
+                                    <lightning-input type="Date" label="Date of Birth"></lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="6" class="slds-p-horizontal_x-small">
+                                    <lightning-radio-group name="GenderGroup" label="Gender" options={options2}
+                                        value={value} type="radio">
+                                    </lightning-radio-group>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                            <lightning-layout size="12">
+                                <lightning-layout-item size="6" class="slds-p-horizontal_x-small">
+                                    <lightning-combobox name="Blood Group" label="Blood Group" value={value}
+                                        placeholder="Select Blood Group" options={options3} onchange={handleChange}>
+
+                                    </lightning-combobox>
+                                </lightning-layout-item>
+                            </lightning-layout>
+
+                            <lightning-layout size="12"
+                                class="slds-m-top_medium slds-badge slds-p-horizontal_medium slds-clearfix">
+                                <lightning-layout-item size="12">
+                                    <span>
+                                        <lightning-badge label="Current Address"
+                                            style="font-weight: bold; font-size:medium ">
+                                        </lightning-badge>
+
+                                        <span class="slds-float_right">
+                                            <lightning-button-icon icon-name="utility:down" slot="actions">
+                                            </lightning-button-icon>
+                                        </span>
+                                    </span>
+                                </lightning-layout-item>
+                            </lightning-layout>
+
+
+                            <lightning-layout size="12" class="slds-p-top_large">
+
+                                <lightning-layout-item size="12" class="slds-p-horizontal_x-small">
+                                    <lightning-input label="Address1" type="text" placeholder="Enter your Address"
+                                        required>
+                                    </lightning-input>
+                                </lightning-layout-item>
+
+                            </lightning-layout>
+
+                            <lightning-layout size="12" class="slds-p-top_large">
+
+                                <lightning-layout-item size="12" class="slds-p-horizontal_x-small">
+                                    <lightning-input label="Address2" type="text" placeholder="Enter your Address"
+                                        required>
+                                    </lightning-input>
+                                </lightning-layout-item>
+
+                            </lightning-layout>
+
+                            <lightning-layout size="12" class="slds-p-top_large">
+                                <lightning-layout-item size="6" class="slds-p-horizontal_x-small">
+                                    <lightning-combobox name="Country" label="Country" value={value}
+                                        placeholder="Select Country" options={options4} onchange={handleChange}>
+                                    </lightning-combobox>
+                                </lightning-layout-item>
+
+                                <lightning-layout-item size="6" class="slds-p-horizontal_x-small">
+                                    <lightning-input name="Enter State" label="State" type="search"></lightning-input>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                            <lightning-layout size="12">
+
+
+                                <lightning-layout-item size="6" class="slds-p-horizontal_x-small">
+                                    <lightning-input label="Pincode" type="tel" placeholder="Pincode"></lightning-input>
+                                </lightning-layout-item>
+
+
+                                <lightning-layout-item size="6" class="slds-p-horizontal_x-small">
+                                    <lightning-input label="City/Town" type="Text" placeholder="Enter your City">
+                                    </lightning-input>
+                                </lightning-layout-item>
+
+
+
+                            </lightning-layout>
+                            <lightning-layout size="12">
+                                <lightning-layout-item size="6" class="slds-p-horizontal_x-small slds-p-top_large">
+                                    <lightning-input type="checkbox"
+                                        label="Mark Current address as Permanent Address too" name="input1">
+                                    </lightning-input>
+                                </lightning-layout-item>
+                            </lightning-layout>
+
+
+                            <lightning-layout size="12" class="slds-m-top_medium slds-badge slds-p-horizontal_medium">
+                                <lightning-layout-item size="12">
+                                    <span>
+                                        <lightning-badge label="Permanent Address"
+                                            style="font-weight: bold; font-size:medium ">
+                                        </lightning-badge>
+                                        <lightning-button-icon icon-name="utility:down" slot="actions"
+                                            class=" slds-clearfix slds-float_right"></lightning-button-icon>
+                                    </span>
+                                </lightning-layout-item>
+                            </lightning-layout>
+
+
+                            <lightning-layout size="12" class="slds-p-top_large">
+
+                                <lightning-layout-item size="12" class="slds-p-horizontal_x-small">
+                                    <lightning-input label="Address1" type="text" placeholder="Enter your Address"
+                                        required>
+                                    </lightning-input>
+                                </lightning-layout-item>
+
+                            </lightning-layout>
+
+                            <lightning-layout size="12" class="slds-p-top_large">
+
+                                <lightning-layout-item size="12" class="slds-p-horizontal_x-small">
+                                    <lightning-input label="Address2" type="text" placeholder="Enter your Address"
+                                        required>
+                                    </lightning-input>
+                                </lightning-layout-item>
+
+                            </lightning-layout>
+
+                            <lightning-layout size="12" class="slds-p-top_large">
+                                <lightning-layout-item size="6" class="slds-p-horizontal_x-small">
+                                    <lightning-combobox name="Country" label="Country" value={value}
+                                        placeholder="Select Country" options={options4} onchange={handleChange}>
+                                    </lightning-combobox>
+                                </lightning-layout-item>
+
+                                <lightning-layout-item size="6" class="slds-p-horizontal_x-small">
+                                    <lightning-input name="Enter State" label="State" type="search"></lightning-input>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                            <lightning-layout size="12">
+
+
+                                <lightning-layout-item size="6" class="slds-p-horizontal_x-small">
+                                    <lightning-input label="Pincode" type="tel" placeholder="Pincode"></lightning-input>
+                                </lightning-layout-item>
+
+
+                                <lightning-layout-item size="6" class="slds-p-horizontal_x-small">
+                                    <lightning-input label="City/Town" type="Text" placeholder="Enter your City">
+                                    </lightning-input>
+                                </lightning-layout-item>
+                            </lightning-layout>
+
+                            <lightning-layout size="12" class="slds-m-top_medium slds-badge slds-p-horizontal_medium">
+                                <lightning-layout-item size="12">
+                                    <span>
+                                        <lightning-badge label="Parents Information "
+                                            style="font-weight: bold; font-size:medium ">
+                                        </lightning-badge>
+                                        <lightning-button-icon icon-name="utility:down" slot="actions"
+                                            class=" slds-clearfix slds-float_right"></lightning-button-icon>
+                                    </span>
+                                </lightning-layout-item>
+                            </lightning-layout>
+
+                            <lightning-layout size="12" class="slds-p-top_large">
+                                <lightning-layout-item size="4" class="slds-p-horizontal_x-small">
+                                    <lightning-input label="Father's Contact Number" type="tel"
+                                        placeholder="Father's Contact" value="+91">
+                                    </lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="4" class="slds-p-horizontal_x-small">
+                                    <lightning-input label="Father's Name" type="text" placeholder="Father's Name">
+                                    </lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="4" class="slds-p-horizontal_x-small">
+                                    <lightning-input label="Father's Occupation" type="text"
+                                        placeholder="Father's Occupation">
+                                    </lightning-input>
+                                </lightning-layout-item>
+                            </lightning-layout>
+
+                            <lightning-layout size="12" class="slds-p-top_large">
+                                <lightning-layout-item size="4" class="slds-p-horizontal_x-small">
+                                    <lightning-input label="Mother's Contact Number" type="tel"
+                                        placeholder="Mother's Contact" value="+91">
+                                    </lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="4" class="slds-p-horizontal_x-small">
+                                    <lightning-input label="Mother's Name" type="text" placeholder="Mother's Name">
+                                    </lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="4" class="slds-p-horizontal_x-small">
+                                    <lightning-input label="Mother's Occupation" type="text"
+                                        placeholder="Mother's Occupation">
+                                    </lightning-input>
+                                </lightning-layout-item>
+                            </lightning-layout>
+
+                            <lightning-layout size="12" class="slds-p-top_large">
+                                <lightning-layout-item size="4" class="slds-p-horizontal_x-small ">
+                                    <lightning-input label="Guardian's Contact Number" type="tel"
+                                        placeholder="Guardian's Contact" value="+91"></lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="4" class="slds-p-horizontal_x-small ">
+                                    <lightning-input label="Guardian's Name" type="text" placeholder="Guardian's Name">
+                                    </lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="4" class="slds-p-horizontal_x-small ">
+                                    <lightning-input label="Guardian's Occupation" type="text"
+                                        placeholder="Guardian's Occupation">
+                                    </lightning-input>
+                                </lightning-layout-item>
+                            </lightning-layout>
+
+                            <div slot="footer" class="slds-clearfix slds-p-top_xxx-small ">
+                                <lightning-button label="Cancel" onclick={cancelHandler}
+                                    class="slds-var-m-left_xx-small slds-float_right">
+                                </lightning-button>
+                                <lightning-button label="Save" variant="brand" onclick={saveHandler}
+                                    class="slds-var-m-left_xx-small slds-float_right"></lightning-button>
+                            </div>
+
+                        </lightning-card>
+                    </div>
+                </template>
+
+
+            </lightning-quick-action-panel>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>
+
+
+
+
+
+
+<!-- <div slot="footer">
+
+
+            <lightning-button
+                variant="neutral"
+                label="Cancel"
+            >
+
+            </lightning-button>
+            <lightning-button
+                variant="brand"
+                label="Next"
+                class="slds-m-left_x-small"
+            >
+
+            </lightning-button>
+        </div> -->
+
+
+
+
+
+
+
+
+
+<!-- <template>
+    <lightning-card title="TemplateIFTrueConditionalRendering" icon-name="custom:custom14">
+        <div class="slds-m-around_medium">
+            <lightning-input type="checkbox" label="Show details" onchange={handleChange}></lightning-input>
+            <template if:true={areDetailsVisible}>
+                <div class="slds-m-vertical_medium">
+                    These are the details! true
+                </div>
+            </template>
+            <template if:false={aredetailsavailable}>
+                <div class="slds-m-vertical_medium">
+                    These are the details!false
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template> -->
+
+
+<!-- <template>
+<lightning-card  style=" text-transform:uppercase; font-weight:bold " title="Select Record Types">
+<article class="slds-card">
+<div class="slds-card__header slds-grid">
+<header class="slds-media slds-media_center slds-has-flexi-truncate">
+
+<div class="slds-media__body">
+<h2 class="slds-card__header-title">
+</h2>
+</div>
+</header>
+</div>
+</article> 
+<div class = "slds-align_absolute-center">
+<span class=" slds-align_absolute-center">Record Types
+
+<lightning-radio-group 
+options={options}
+value={value}
+type="radio" class="slds-p-left-large"></lightning-radio-group>
+</span>
+</div>
+
+</lightning-card>
+</template> -->

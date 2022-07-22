@@ -1,0 +1,95 @@
+<template>
+    <lightning-card>
+        <lightning-layout multiple-rows="true">
+
+            <lightning-layout-item padding="around-small" flexibility="true" >
+                <lightning-combobox name="Student" label="Student" value={value} placeholder="Select a Student" options={StudentOptions} onchange={handleChange} ></lightning-combobox>
+            </lightning-layout-item>
+
+            <lightning-layout-item padding="around-small" flexibility="true">
+                <div>
+                <p>    <lightning-input type="email" label="Student Email"></lightning-input> </p>
+                 <p><lightning-input type="checkbox" label="Send later" name="Send later"></lightning-input> </p>   
+                </div>
+                </lightning-layout-item >
+
+
+            <lightning-layout-item padding="around-small" flexibility="true">    
+               <lightning-radio-group name="Online Payments"
+                label="Online Payments"
+                options={options1}
+                onchange={handleChange}></lightning-radio-group>
+            </lightning-layout-item>
+
+            <lightning-layout-item padding="around-small" class="slds-p-around_xx-large slds-m-left_xx-large" flexibility="true">
+
+            </lightning-layout-item>
+
+            <lightning-layout-item flexibility="true"  class="slds-float_right " padding="around-small">
+                <div>
+                    <p style="color:dimgray ;">Balance Due</p>
+                    <p>
+                        <lightning-formatted-number style="font-weight:bold ; font-size:30px;" value="0.00" format-style="currency" currency-code="USD"></lightning-formatted-number>
+                    </p>
+                </div>
+            </lightning-layout-item>
+                
+
+        </lightning-layout>
+
+
+        <lightning-layout>
+
+            <lightning-layout-item flexibility="true" size="2" padding="around-small">
+                <lightning-textarea name="Billing address" label="Billing address" ></lightning-textarea>
+            </lightning-layout-item>
+        
+            <lightning-layout-item flexibility="true" size="2" padding="around-small">
+                <lightning-combobox name="Terms" label="Terms" placeholder="Select Terms" options={TermOptions} onchange={handleTermChange} ></lightning-combobox>
+            </lightning-layout-item>
+
+            <lightning-layout-item flexibility="true" size="2" padding="around-small">
+                <lightning-input type="date" label="Invoice Date" onchange={handleDateChange} value={invoiceDate}></lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item flexibility="true" size="2" padding="around-small">
+                <lightning-input type="date" label="Due Date" value={dueDate} disabled></lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item flexibility="true" size="2"  padding="around-small">
+                <lightning-input type="text" label="Invoice No" name="Invoice no" value={invoiceNo} onchange={handleChange}></lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item flexibility="true" size="2"  padding="around-small">
+                <lightning-input type="text" label="Purchase No" name="Purchase No" value={purchaseNo} onchange={handleChange}></lightning-input>
+            </lightning-layout-item>
+
+        </lightning-layout>
+        
+        <!-- <lightning-layout>
+            <lightning-layout-item size="12" padding="around-small">
+                <lightning-input type="text" label="Tags" name="Tags" placeholder="Select tags"></lightning-input>
+            </lightning-layout-item>
+        </lightning-layout> -->
+
+        <lightning-layout>
+            
+            <lightning-layout-item size="12" class="slds-p-around_medium">
+                <lightning-datatable
+                key-field="id"
+                data={data}
+                columns={columns}
+                onrowaction={handleRowAction}
+                >
+               
+        </lightning-datatable>
+        <lightning-button-icon style="margin: 3px;"  icon-name="utility:add" label="Add Resource" onclick={handleClick}></lightning-button-icon>
+        <lightning-button-icon style="margin: 3px;"  icon-name="utility:delete" label="Delete Resource" onclick={removeResource}></lightning-button-icon>
+
+      
+                </lightning-layout-item>
+        </lightning-layout>
+
+    </lightning-card>
+    
+</template>

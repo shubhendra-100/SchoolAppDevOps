@@ -1,0 +1,110 @@
+<template>
+    <lightning-card>
+        <div class="slds-p-horizontal_medium slds-clearfix">
+
+            <div class="slds-border_bottom slds-p-bottom_medium">
+                <lightning-icon icon-name="standard:education" alternative-text="class/Subjects"
+                    title="Manage Classes and Subjects">
+                </lightning-icon>
+                <span style="font-weight: bold; font-size: 16px; text-transform: uppercase;"
+                    class="slds-m-left_x-small slds-text-heading_large">Manage Classes and
+                    Subjects</span>
+                <c-create-class class="slds-float_right" label="Add Classes"></c-create-class>
+            </div>
+
+            <template if:true={isModalOpen}>
+                <!-- Modal/Popup Box LWC starts here -->
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                    aria-describedby="modal-content-id-1" class="slds-modal slds-modal_medium slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <!-- Modal/Popup Box LWC header here -->
+                        <header class="slds-modal__header">
+                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                                title="Close" onclick={closeModal}>
+                                <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                                    size="small" class="slds-float_right" onclick={closePopup}></lightning-icon>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Update Class</h2>
+                        </header>
+                        <div class="slds-modal__content" id="modal-content-id-1">
+                            <!-- Modal/Popup Box LWC body starts here -->
+                            <c-edit-class records-id={recordId} modal-res={isModalOpen}
+                                onmodalchange={handleModalChange}></c-edit-class>
+                        </div>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </template>
+
+            <template if:true={isDelete}>
+                <c-delete-confirmation records-id={DelId} obj-name="section__c" onmodalchange={closemodaldelete} ></c-delete-confirmation>
+            </template>
+
+
+            <template if:true={isModalOpens}>
+                <!-- Modal/Popup Box LWC starts here -->
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                    aria-describedby="modal-content-id-1" class="slds-modal slds-modal_medium slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <!-- Modal/Popup Box LWC header here -->
+                        <header class="slds-modal__header">
+                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                                title="Close" onclick={closeModals}>
+                                <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                                    size="small" class="slds-float_right" onclick={closeModals}></lightning-icon>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                            <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Assign teacher to class</h2>
+                        </header>
+                        <div class="slds-modal__content" id="modal-content-id-2">
+                            <!-- Modal/Popup Box LWC body starts here -->
+                            <c-assign-teacher-to-class records-id={recordId} modal-res={isModalOpens}
+                                onmodalchanges={handleModalChanges}></c-assign-teacher-to-class>
+                        </div>
+
+                        <!-- <template if:true={isDelete}>
+                            <c-delete-confirmation records-id={DelId} obj-name="Class_Sub_Teach__c" onmodalchange={closemodaldelete} ></c-delete-confirmation>
+                        </template> -->
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </template>
+
+
+            <div>
+                <lightning-tabset active-tab-value="two">
+
+                    <!-- <lightning-tab label='Classes [3]'>
+                        <lightning-datatable if:true={a} key-field="id" data={data} columns={columns} hide-checkbox-column="true"
+                            column-widths-mode="auto" >
+                        </lightning-datatable>
+                    </lightning-tab> -->
+
+                    <lightning-tab label={title} value="two">
+                        <lightning-datatable if:true={b} key-field="Id" data={data} columns={columns} onrowselection={handleSelectedRow}
+                            column-widths-mode="auto" onrowaction={handleRowAction} draft-values={fldsItemValues} onsave={handleSave}> 
+                            <!-- onrowselection={handleSelectedRow}  -->
+                        </lightning-datatable>
+                    </lightning-tab>
+
+                    <!-- <lightning-tab label='Subject & Courses [4]'>
+                        <lightning-datatable if:true={a} key-field="id" data={data} columns={columns} hide-checkbox-column="true"
+                            column-widths-mode="auto">
+                        </lightning-datatable>
+                    </lightning-tab> -->
+
+                    <!-- <lightning-tab label='View Allotted Teachers [2]'>
+                        <lightning-datatable if:true={a} key-field="id" data={data} columns={columns} hide-checkbox-column="true"
+                            column-widths-mode="auto">
+                        </lightning-datatable>
+                    </lightning-tab> -->
+                </lightning-tabset>
+            </div>
+
+            <lightning-button label="Delete" onclick={deleteRows} variant="brand"
+                class="slds-var-m-left_xx-small slds-float_right"></lightning-button>
+
+        </div>
+    </lightning-card>
+</template>

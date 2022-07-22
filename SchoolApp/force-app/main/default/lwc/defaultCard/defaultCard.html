@@ -1,0 +1,22 @@
+<template >
+    <lightning-card onclick={navigateHandler} >
+        <div class="slds-clearfix container">
+            <div class="slds-float_left leftBox">
+                <lightning-layout multiple-rows class="resScreen">
+                        <lightning-layout-item flexibility="auto" size="12">
+                            <p class="slds-badge slds-theme_warning">{counter}</p>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" size="12">
+                            <p style="font-size:150% ;">{header}</p>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                    <!-- <p class="step">{step}</p> -->
+                </div>
+                <div class="arrow-left"></div>
+                <div class="slds-float_right rightBox">
+                    <h3>{headerLine}</h3>
+                    <p>{exampleTag}</p>
+                </div>
+            </div>
+        </lightning-card>
+</template>

@@ -1,0 +1,30 @@
+<template>
+    
+
+     <lightning-card style="margin:15px; text-transform:uppercase;" title="View Academic Year" icon-name="utility:event">
+        <div class="slds-clearfix">
+            <c-academic-year class="slds-var-m-left_xx-small slds-float_right">
+            </c-academic-year>
+            <div class="slds-clearfix">
+                <lightning-button class="slds-var-m-left_xx-small slds-float_left" variant="Neutral"
+                    label="Selected Records" title="Selected Records" onclick={getSelectedRec} slot="actions"
+                    icon-name="utility:check">
+                </lightning-button>
+            </div>
+        </div>
+        <div style="height: auto;">
+            <template if:true={dataList}>
+                <lightning-datatable key-field="id" data={dataList} columns={columns} suppress-bottom-bar>
+                </lightning-datatable>
+            </template>
+        </div>
+        <div slot="footer" class="slds-clearfix slds-p-top_xxx-small ">
+            <lightning-button icon-name="utility:delete" label="DELETE" onclick={deleteHandler} variant="brand"
+                class="slds-var-m-left_xx-small slds-float_right"></lightning-button>
+            <lightning-button icon-name="utility:copy" label="CLONE" onclick={cloneHandler} variant="brand"
+                class="slds-var-m-left_xx-small slds-float_right"></lightning-button>
+        </div>
+    </lightning-card> 
+
+
+</template>

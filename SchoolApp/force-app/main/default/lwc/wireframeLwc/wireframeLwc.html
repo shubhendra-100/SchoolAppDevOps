@@ -1,0 +1,476 @@
+<template>
+  <!-- lightning button for open modal window -->
+  <lightning-icon class="sIcon" icon-name="action:new_account" alternative-text="School" title="School">
+  </lightning-icon>
+  <a class="slds-text-heading_medium madding" onclick={openModal}>SETUP Your School Profile</a>
+  <!-- <lightning-button variant="brand"
+     label="School Profile"
+     title="School Profile"
+     onclick={openModal}
+     class="slds-m-left_x-small">
+  </lightning-button> -->
+  <!--Use template if:true to display/hide popup based on isModalOpen value-->
+  <template if:true={isModalOpen}>
+    <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+      class="slds-modal slds-fade-in-open slds-modal_large">
+      <div class="slds-modal__container">
+        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+          onclick={closeModal}>
+          <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small">
+          </lightning-icon>
+          <span class="slds-assistive-text">Close</span>
+        </button>
+        <div class="slds-modal__header">
+          <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">School Profile</h1>
+        </div>
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+          <label>
+            <lightning-layout size="12">
+              <div class="smallScreen">
+                <lightning-layout-item size="4">
+                  <div style="width: 300px; height: 170px; margin-right: 40px;">
+                    <template if:true={filesList}>
+                      <template for:each={filesList} for:item="file">
+                        <div key={file.value}>
+                          <div>
+                            <img src={file.url} />
+                          </div>
+                          <div>
+                            <p>File Name: {file.label}</p>
+                          </div>
+                        </div>
+                      </template>
+                    </template>
+                    <!-- <template if:false={filesList}>  
+                        <lightning-icon icon-name="custom:custom16" style="zoom: 300%; margin-left: 180px; position:relative"
+                        alternative-text="Upload an Image4"
+                        class="slds-m-left_x-small" ></lightning-icon>
+                  </template> -->
+                    <template if:true={file}>
+                      <div>
+                        <img src={frame} />
+                      </div>
+                      <div>
+                        <p>File Name: {fileName}</p>
+                      </div>
+                    </template>
+                  </div>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="6"
+                  style="display: flex;align-items: center;justify-content: center;flex-direction: column;border: 2px dashed #ddd;border-radius: 10px;margin: 0px 10px;padding: 30px 0px;">
+                  <div style="font-size: x-large;color: #aaa;">Drop your file here!</div>
+                  <lightning-input type="file" id="myfile" record-id={recordId} onchange={fileupload}></lightning-input>
+                  <h1 style="margin-left: 20px;color:#aaa;">Upload School Logo</h1>
+                </lightning-layout-item>
+              </div>
+            </lightning-layout>
+            <!--img src="https://cdn.pixabay.com/photo/2018/02/17/00/06/school-3158985_960_720.png" width="120rem" style="margin-left: 5% ;"-->
+
+            <!--lightning-button variant="destructive" title="Reset Form" class="slds-m-top_small slds-m-horizontal_small" label="Reset Image" onclick={resetFormAction}></lightning-button-->
+          </label>
+          <!-- <template if:true={filesList}>
+            <template for:each={filesList} for:item="file">
+              <div key={file.value}>
+              </div>
+            </template>
+          </template> -->
+          <!-- <template if:true={file}>
+            <p style="margin-left: 20px ;">{file.name}</p>
+          </template> -->
+          <br>
+          <br>
+
+          <template if:false={accounts}>
+            <div class="slds-grid slds-wrap">
+              <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                <div class="slds-form-element">
+                  <lightning-input label="School Name" placeholder="Enter School Name" value={schoolName}
+                    onchange={schoolnameChangeVal} required multiple=""></lightning-input>
+                </div>
+              </div>
+
+              <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                <div class="slds-form-element">
+                  <lightning-input label="Affiliate ID" placeholder="Enter Affiliate Id" value={affiliateId}
+                    onchange={affiliateChangeVal}></lightning-input>
+                </div>
+              </div>
+            </div>
+          </template>
+
+          <div class="slds-p-horizontal--small  slds-m-bottom--medium">
+            <template if:false={accounts}>
+              <lightning-input-address address-label="Address" street-label="Street" city-label="City"
+                country-label="Country" province-label="State" postal-code-label="PostalCode"
+                address-placeholder="Enter address" street-placeholder="Enter Street" city-placeholder="Enter City "
+                country-placeholder="Enter Country" province-placeholder="Enter Full State Name"
+                postalcode-placeholder="Enter Postal Code" country="" street="" city="" province="" postal-code=""
+                onchange={addressChangeVal} country-options={countryPicklist.data.values}
+                province-options={statePicklist.data.values}>
+              </lightning-input-address>
+            </template>
+          </div>
+
+          <!--h1>Locate Your Map</h1>
+                  <lightning-map map-markers={mapMarkers}></lightning-map-->
+          <template if:false={accounts}>
+            <lightning-accordion class="example-accordion" onsectiontoggle={handleToggleSection}
+              active-section-name="BasicDetails" allow-multiple-sections-open>
+              <lightning-accordion-section name="BasicDetails" label="Basic Details">
+
+
+                <div class="slds-grid slds-wrap">
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-combobox placeholder="Select School Type" label="School Type" value={schooltype}
+                        options={schooltypePicklist.data.values} onchange={schooltypeChangeVal}>
+                      </lightning-combobox>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-combobox label="Grade From" placeholder="Select Grade From" value={gradefrom}
+                        options={gradefromPicklist.data.values} onchange={gradefromChangeVal}>
+                      </lightning-combobox>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-combobox label="Grade To" placeholder="Select Grade To" value={gradeto}
+                        options={gradetoPicklist.data.values} onchange={gradetoChangeVal}>
+                      </lightning-combobox>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-combobox label="Affiliate to/Board" placeholder="Select Affiliate To Board"
+                        value={affiliatetoboard} options={affiliatetoboardPicklist.data.values}
+                        onchange={affiliatetoboardChangeVal}>
+                      </lightning-combobox>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-combobox label="Language of Instruction" placeholder="Select Language Of Instruction"
+                        value={language} options={languagePicklist.data.values} onchange={languageChangeVal}>
+                      </lightning-combobox>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-input type="toggle" label="Status of School Affiliation?" data-id="toggle1"
+                        onchange={Affiliationstatuschangeval} value={statusaffiliation}></lightning-input>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-input type="Date" label="Year of School Establishment"
+                        placeholder="Select Establishment Date" value={yse} onchange={yseChangeVal}></lightning-input>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-input type="Date" label="School Affiliation Granted On"
+                        placeholder="Select Affiliation Granted Date" value={sag} onchange={sagChangeVal}>
+                      </lightning-input>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-input label="Name of Trust/Society/Institution/Company The School Registered With"
+                        placeholder="Enter School Registered With" value={schoolregisteredwith}
+                        onchange={schoolregisteredwithChangeVal}></lightning-input>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-input label="Total Number Of Students" placeholder="Enter Total Number Of Students"
+                        value={noofstudents} onchange={noofstudentsChangeVal}></lightning-input>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-combobox label="Board Type" placeholder="Select School Board Type" value={boardtype}
+                        options={boardtypePicklist.data.values} onchange={boardtypeChangeVal}>
+                      </lightning-combobox>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-combobox label="Medium" placeholder="Select School Medium" value={medium}
+                        options={mediumPicklist.data.values} onchange={mediumChangeVal}>
+                      </lightning-combobox>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-input type="toggle" label="Admission Open?" value={admissionopen} data-id="toggle2"
+                        onchange={admissionopenChangeval}></lightning-input>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-input type="phone" label="Landline Number" placeholder="Enter Land Line Number"
+                        value={landlinenumber} onchange={landlinenumberChangeVal}></lightning-input>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-input label="Website" placeholder="Enter School Website: https://www.google.co.in/"
+                        value={website} onchange={websiteChangeVal}></lightning-input>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-combobox label="Promoted" placeholder="Select Whether school Promoted Or Not"
+                        value={promoted} options={promotedPicklist.data.values} onchange={promotedChangeVal}>
+                      </lightning-combobox>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-input type="toggle" label="Is Verified?" data-id="toggle3"
+                        onchange={isverifiedChangeval} value={isverified}></lightning-input>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-textarea type="text" label="Describe About Your School"
+                        placeholder="Describe About School" value={describeschool} onchange={describeschoolChangeVal}>
+                      </lightning-textarea>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-combobox name={value} label="Add Your Schhol Facilities"
+                        placeholder="Select School Facilities" value={value}
+                        options={schoolfacilitiesPicklist.data.values} onchange={schoolfacilitiesChangeVal}>
+                      </lightning-combobox>
+                    </div>
+                    <div class="slds-p-around_xx-small">
+                      <template for:each={allvalues} for:item="val">
+                        <lightning-pill key={val} label={val} name={val} onremove={handleremove}></lightning-pill>
+                      </template>
+                    </div>
+                  </div>
+                </div>
+
+              </lightning-accordion-section>
+            </lightning-accordion>
+          </template>
+
+          <!--if true condition-->
+          <template if:true={accounts}>
+            <div class="slds-grid slds-wrap">
+              <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                <div class="slds-form-element">
+                  <lightning-input label="School Name" placeholder="Enter School Name" name={schoolName}
+                    value={schoolname} onchange={schoolnameChangeVal} required multiple=""></lightning-input>
+                </div>
+              </div>
+
+              <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                <div class="slds-form-element">
+                  <lightning-input label="Affiliate ID" placeholder="Enter Affiliate Id" name={affiliateId}
+                    value={affiliateIds} onchange={affiliateChangeVal}></lightning-input>
+                </div>
+              </div>
+            </div>
+          </template>
+
+          <div class="slds-p-horizontal--small  slds-m-bottom--medium">
+            <template if:true={accounts}>
+              <lightning-input-address address-label="Address" street-label="Street" city-label="City"
+                country-label="Country" province-label="State" postal-code-label="PostalCode"
+                address-placeholder="Enter address" street-placeholder="Enter Street" city-placeholder="Enter City "
+                country-placeholder="Enter Country" province-placeholder="Enter Full State Name"
+                postalcode-placeholder="Enter Postal Code" country={countries} street={streets} city={cities}
+                province={states} postal-code={postalcodes} country-name={country} street-name={street} city-name={city}
+                province-name={province} postal-code-name={postalcode} onchange={addressChangeVal}
+                country-options={countryPicklist.data.values} province-options={statePicklist.data.values}>
+              </lightning-input-address>
+            </template>
+          </div>
+
+          <!--h1>Locate Your Map</h1>
+              <lightning-map map-markers={mapMarkers}></lightning-map-->
+          <template if:true={accounts}>
+            <lightning-accordion class="example-accordion" onsectiontoggle={handleToggleSection}
+              active-section-name="BasicDetails" allow-multiple-sections-open>
+              <lightning-accordion-section name="BasicDetails" label="Basic Details">
+
+                <div class="slds-grid slds-wrap">
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-combobox placeholder="Select School Type" label="School Type" value={schooltypes}
+                        name={schooltype} options={schooltypePicklist.data.values} onchange={schooltypeChangeVal}>
+                      </lightning-combobox>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-combobox name={gradefrom} label="Grade From" placeholder="Select Grade From"
+                        value={gradefroms} options={gradefromPicklist.data.values} onchange={gradefromChangeVal}>
+                      </lightning-combobox>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-combobox name={gradeto} label="Grade To" placeholder="Select Grade To" value={gradetos}
+                        options={gradetoPicklist.data.values} onchange={gradetoChangeVal}>
+                      </lightning-combobox>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-combobox name={affiliatetoboard} label="Affiliate to/Board"
+                        placeholder="Select Affiliate To Board" value={affiliateboards}
+                        options={affiliatetoboardPicklist.data.values} onchange={affiliatetoboardChangeVal}>
+                      </lightning-combobox>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-combobox name={language} label="Language of Instruction"
+                        placeholder="Select Language Of Instruction" value={languages}
+                        options={languagePicklist.data.values} onchange={languageChangeVal}>
+                      </lightning-combobox>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-input type="toggle" label="Status of School Affiliation?" data-id="toggle1"
+                        onchange={Affiliationstatuschangeval} name={statusaffiliation} value={statuss}
+                        checked={statuss}></lightning-input>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-input type="Date" label="Year of School Establishment"
+                        placeholder="Select Establishment Date" name={yse} value={schoolestablishments}
+                        onchange={yseChangeVal}></lightning-input>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-input type="Date" label="School Affiliation Granted On"
+                        placeholder="Select Affiliation Granted Date" name={sag} value={affiliationgranted}
+                        onchange={sagChangeVal}></lightning-input>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-input label="Name of Trust/Society/Institution/Company The School Registered With"
+                        placeholder="Enter School Registered With" name={schoolregisteredwith} value={registerwiths}
+                        onchange={schoolregisteredwithChangeVal}></lightning-input>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-input label="Total Number Of Students" placeholder="Enter Total Number Of Students"
+                        name={noofstudents} value={totalstudents} onchange={noofstudentsChangeVal}></lightning-input>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-combobox name={boardtype} label="Board Type" placeholder="Select School Board Type"
+                        value={boardtypes} options={boardtypePicklist.data.values} onchange={boardtypeChangeVal}>
+                      </lightning-combobox>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-combobox name={medium} label="Medium" placeholder="Select School Medium"
+                        value={mediums} options={mediumPicklist.data.values} onchange={mediumChangeVal}>
+                      </lightning-combobox>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-input type="toggle" label="Admission Open?" value={admissions} checked={admissions}
+                        data-id="toggle2" onchange={admissionopenChangeval} name={admissionopen}></lightning-input>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-input type="phone" label="Landline Number" placeholder="Enter Land Line Number"
+                        name={landlinenumber} value={landnumbers} onchange={landlinenumberChangeVal}></lightning-input>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-input label="Website" placeholder="Enter School Website: https://www.google.co.in/"
+                        name={website} value={websites} onchange={websiteChangeVal}></lightning-input>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-combobox name={promoted} label="Promoted"
+                        placeholder="Select Whether school Promoted Or Not" value={promoteds}
+                        options={promotedPicklist.data.values} onchange={promotedChangeVal}>
+                      </lightning-combobox>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-input type="toggle" label="Is Verified?" data-id="toggle3"
+                        onchange={isverifiedChangeval} name={isverified} value={verifieds} checked={verifieds}>
+                      </lightning-input>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-textarea type="text" label="Describe About Your School"
+                        placeholder="Describe About School" value={descriptions} name={describeschool}
+                        onchange={describeschoolChangeVal}></lightning-textarea>
+                    </div>
+                  </div>
+                  <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element">
+                      <lightning-combobox name={allvalues} label="Add Your Schhol Facilities"
+                        placeholder="Select School Facilities" value={value}
+                        options={schoolfacilitiesPicklist.data.values} onchange={schoolfacilitiesChangeVal}>
+                      </lightning-combobox>
+                    </div>
+                    <div class="slds-p-around_xx-small">
+                      <template for:each={allvalues} for:item="val">
+                        <lightning-pill key={val} label={val} name={val} onremove={handleremove}></lightning-pill>
+                      </template>
+                      <!-- <template for:each={facilities} for:item="val">
+                        <lightning-pill key={val} label={val} name={val} onremove={handleremoves}></lightning-pill>
+                      </template> -->
+                    </div>
+                    <!--div class="slds-p-around_xx-small">
+                              <template for:each={facilities} for:item="val">
+                                <lightning-pill key={val} label={val} name={val}  onremove={handleremoves}></lightning-pill>
+                              </template>
+                            </div-->
+                  </div>
+                </div>
+
+              </lightning-accordion-section>
+            </lightning-accordion>
+          </template>
+        </div>
+        <template if:false={accounts}>
+          <div class="slds-modal__footer">
+            <button class="slds-button slds-button_brand" onclick={submitDetails}>Save</button>
+            <button class="slds-button slds-button_neutral" aria-label="Cancel and close"
+              onclick={closeModal}>Cancel</button>
+          </div>
+        </template>
+        <template if:true={accounts}>
+          <div class="slds-modal__footer">
+            <button class="slds-button slds-button_brand" onclick={Updatedetails}>Update</button>
+            <button class="slds-button slds-button_neutral" aria-label="Cancel and close"
+              onclick={closeModal}>Cancel</button>
+          </div>
+        </template>
+      </div>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+  </template>
+
+</template>

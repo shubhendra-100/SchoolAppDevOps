@@ -1,0 +1,78 @@
+<template>
+    <!-- <template if:true={isBoolean}> -->
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+        aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_medium">
+
+
+        <div class="slds-modal slds-fade-in-open slds-scrollable  slds-scrollable_y slds-backdrop">
+            <div class="slds-modal__container slds-scrollable  slds-scrollable_y">
+                <div class="slds-modal__header">
+                    <h1 class="slds-text-heading_medium" style="font-weight:bold;">Create Admission</h1>
+                    <lightning-button-icon icon-name="utility:close" alternative-text="Close this window" size="large"
+                        variant="bare-inverse" onclick={closePopup} class="slds-modal__close">
+                    </lightning-button-icon>
+                </div>
+                <lightning-card>
+
+                    <div class="slds-p-around_medium slds-scrollable  slds-scrollable_y">
+
+                        <!-- <template if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading" size="medium">
+        </lightning-spinner>
+   </template> -->
+                        <lightning-layout size="12">
+                            <lightning-layout-item size="6" class="slds-p-around_xx-small">
+                                <label>Academic Year</label>
+                                <c-custom-lookup class="slds-scrollable  slds-scrollable_y" error-message='check'
+                                    inputlabel="Academic Year" obj-name="Academic_Year__c"
+                                    search-placeholder="Select Academic year" icon-name="standard:account"
+                                    onlookupselected={handleAccountSelection}
+                                    throw-error={isError} filter='' required="true">
+                                </c-custom-lookup>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6" class="slds-p-around_xx-small">
+                                <!-- <label>Status</label> -->
+                                <lightning-combobox label="Status" name="progress" class="validate" value={value}
+                                    placeholder="Select Progress" options={options} onchange={handleChange}>
+                                </lightning-combobox>
+                            </lightning-layout-item>
+                        </lightning-layout>
+
+                        <lightning-layout size="12">
+                            <lightning-layout-item size="6" class="slds-p-around_xx-small">
+                                <!-- <label>Admission Close Date</label> -->
+                                <lightning-input type="Date" label="Admission Close Date" class="validate"
+                                    onchange={handleDate} required></lightning-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6" class="slds-p-around_xx-small">
+                                <!-- <span>Assign Classes</span>  -->
+                                <c-multi-select-lookup onuserselected={handleSelectValue} field-name='Name'
+                                    object-name='Class__c' label="Assign Classes" class-name={objIds} throw-error={isMultiError} required>
+                                </c-multi-select-lookup>
+                            </lightning-layout-item>
+                        </lightning-layout>
+
+
+                        <div class="slds-border_bottom"></div>
+                        <div class="slds-clearfix">
+                            <div class="slds-float_right slds-m-top_small ">
+                                <div>
+                                    <!-- <lightning-spinner
+                alternative-text="Loading..." variant="brand">
+            </lightning-spinner> -->
+
+                                    <lightning-button variant="brand" label="Save" title="Create" onclick={handleClick}>
+                                    </lightning-button>
+                                    <lightning-button class="slds-m-left_small slds-m-right_medium" variant="Neutral"
+                                        label="Cancel" title="Cancel" onclick={closePopup}>
+                                    </lightning-button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </lightning-card>
+            </div>
+        </div>
+    </section>
+    <!-- </template> -->
+</template>

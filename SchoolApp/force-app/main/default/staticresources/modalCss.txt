@@ -1,0 +1,4 @@
+.slds-global-header
+{
+  display:none
+}
