@@ -1,12 +1,12 @@
 {
   "packageDirectories": [
     {
-      "path": "force-app",
+     "path":"force-app",
       "default": true
     }
   ],
   "name": "SchoolApp",
   "namespace": "",
-  "sfdcLoginUrl": "https://sedin2019--vidhyaan.lightning.force.com",
+  "sfdcLoginUrl": "https://sedin2019--vidhyaan.my.salesforce.com",
   "sourceApiVersion": "55.0"
 }
