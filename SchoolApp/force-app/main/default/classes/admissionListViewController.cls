@@ -56,15 +56,17 @@ public with sharing class admissionListViewController {
 
 
 @AuraEnabled (cacheable=true)
-public static list<Contact> getTeacherNames(String keySearch){
+public static list<Attendance__c> getTeacherNames(String keySearch){
     try {
         if(keySearch==''){
-            return[Select id,Teacher_Name__c from Contact WHERE RecordType.Name='Teacher'];
+            return[Select id,Staff_Name__c,Staff_Name__r.Teacher_Name__c,Date__c,Check_In__c,Check_Out__c,Status__c from Attendance__c 
+            WHERE createdDate=TODAY ];
         }
         string searchKeyword = '%' + keySearch + '%';
 
-        return[Select id,Teacher_Name__c From Contact 
-        where RecordType.Name='Teacher' AND Teacher_Name__c like:searchKeyword ];
+        return[Select id,Staff_Name__c,Staff_Name__r.Teacher_Name__c,Date__c
+        ,Check_In__c,Check_Out__c,Status__c from Attendance__c
+        WHERE createdDate=TODAY AND Staff_Name__r.Teacher_Name__c like:searchKeyword ];
 
         
     } catch (Exception e) {
@@ -79,7 +81,6 @@ public static String  updateRecords(String attendance){
         Attendance__c n = (Attendance__c)JSON.deserialize(
             attendance, Attendance__c.class);
             System.debug('After'+n);
-            //n.Date__c = Date.valueOf('2022-07-22');
             update n;
 
             System.debug('Dataaa'+n);
@@ -90,7 +91,21 @@ public static String  updateRecords(String attendance){
         System.debug('Errrror'+e.getMessage());
         throw new AuraHandledException(e.getMessage());
     }
+} 
+
+@AuraEnabled
+public static string deleteFieldValues(String deleteFields){
+    try {
+        Attendance__c n = (Attendance__c)JSON.deserialize(
+            deleteFields, Attendance__c.class);
+            n.Check_In__c='';
+            n.Check_Out__c='';
+
+            Update n;
+
+            return '';
+    } catch (Exception e) {
+        throw new AuraHandledException(e.getMessage());
+    }
 }
-
-
 }

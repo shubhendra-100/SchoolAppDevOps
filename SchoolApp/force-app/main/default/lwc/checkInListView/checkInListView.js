@@ -1,12 +1,12 @@
 import { LightningElement,wire,track,api } from 'lwc';
 import getTeacherNames from '@salesforce/apex/admissionListViewController.getTeacherNames';
 import updateRecords from '@salesforce/apex/admissionListViewController.updateRecords';
+import delFields from '@salesforce/apex/admissionListViewController.deleteFieldValues';
 
 import { refreshApex } from '@salesforce/apex';
-import Id from '@salesforce/schema/Account.Id';
 
 const columns = [
-    { label: 'Staff Name', fieldName: 'Staff_Name__c',sortable: "true",type:'lookup'},
+    { label: 'Staff Name', fieldName: 'Staff_Name__c',type:'lookup'},
     { label: 'Checked In', fieldName: 'Check_In__c'},
     { label: 'Checked Out', fieldName: 'Check_Out__c'},
     { label: 'Status',fieldName: 'Status__c', option:'options'},
@@ -17,20 +17,21 @@ const columns = [
         label:'Check_In',
         value:'Check In',
         variant:'success',
-        disabled:false
+        disabled: { fieldName: 'disabledButton1' }
         
     }},
     {type: 'button', typeAttributes: {
         label:'Check_Out',
         value:'Check Out',
         variant:"brand", 
-        
+        disabled: { fieldName: 'disabledButton2' }
     }},
+
     {type: 'button', typeAttributes: {
         label:'Cancel_Check',
-        value:'Cancel Check',
+        value:'Cancel Check', 
         variant:"destructive",  
-        
+        disabled: { fieldName: 'disabledButton3' }
     }}
 
 ];
@@ -43,11 +44,9 @@ export default class CheckInListView extends LightningElement {
    @track sortDirection;
    recordId=[];
    dataRecords;
-//    @track disable=false;
-
+   @track attendance;
+   @track deleteFields;
     
-   //return this.dataListcopy.reduce((previousValue,currentValue) => Number(previousValue) + Number(currentValue.Total_No_of_Seats__c),0);
-
    
    absent=5;
 
@@ -61,59 +60,35 @@ export default class CheckInListView extends LightningElement {
     ];
    }
 
-   get present(){
-
-    
-
-
-    // if(this.checkInData.length>0){
-    //     return this.checkInData.reduce((acc,cur)=>{
-    //         console.log('Statusssss'+Status__c)
-    //     let status=cur.Status__c=='Present';
-    //     if(acc[status]){
-    //         acc[status]++;
-    //     }
-    //     else{
-    //         acc[status]=1;
-    //     }
-    //     },{})
-    // }
-}
-getDate(){
-    let date=new Date();
-    let day = date.getDate();
-    let month = date.getMonth()+1;
-    let year = date.getFullYear();
-    let fullDate = `${day}/${month}/${year}`;
-    return fullDate;
-}
+   present=9;
 
    @wire(getTeacherNames,{keySearch: '$searchData'})
    fetchRecords(result){
         this.dataRecords=result;
-        let date=this.getDate();
-        //console.log('Dataaaaaaaa'+JSON.stringify(this.dataRecords));
             if(result.data){
                  let obj=JSON.parse(JSON.stringify(result.data))        
                  for(let x of obj){
-                    x['Staff_Name__c'] = x.Teacher_Name__c
-                    x['Status__c']= '--None--';
-                    x['Date__c']=date;
+            
+                    x['Staff_Name__c'] = x.Staff_Name__r.Teacher_Name__c;
+                    x['Status__c']= x.Status__c;
+                    x['Date__c']= x.Date__c;
+                    x['Check_In__c'] = x.Check_In__c;
+                    x['Check_Out__c'] = x.Check_Out__c;
+                    if(x['Check_In__c']!=null && x['Check_Out__c']!=null ){
+                        x.disabledButton1=true;
+                        x.disabledButton2=true;
+                        x.disabledButton3=true;
+                    }
+                    if(x['Check_In__c']!=null && x['Check_Out__c']==null ){
+                        x.disabledButton1=true;
+                    }
                  }
                  this.checkInData=obj;
-                 //console.log('tfcvtfd'+JSON.stringify(this.checkInData))
                 }
             if(result.error){
                 console.log(result.error)
             }
-   }
-
-//    @wire(saveRecords)
-//    assignValues(result){
-//     this.dataRecords=result;
-//     console.log('Alllll'+JSON.stringify(this.dataRecords))   
-//    }    
-   
+   }   
    
    getsearchRecords(event) {
     this.searchData = event.detail.value;
@@ -133,7 +108,8 @@ getDate(){
         let i;
         let data = JSON.parse(JSON.stringify(this.checkInData));
         data.map((item, index)=>{
-            if(item.Teacher_Name__c == name){
+            if(item.Staff_Name__r.Teacher_Name__c == name){
+                console.log('Nameeeeeee',item.Staff_Name__r.Teacher_Name__c)
                 i = index;  
             } 
         })
@@ -146,10 +122,9 @@ getDate(){
     }
 
     handleRowAction(event){
-        var timer;
         
         if(event.detail.action.label==='Check_In'){
-            
+            location.reload();
             let row = event.detail.row;
             let data=JSON.parse(JSON.stringify(this.checkInData));
 
@@ -158,90 +133,107 @@ getDate(){
             let index;
           
             for(let x = 0; x <= data.length; x++){
-                if(x == this.btnIndex(row.Teacher_Name__c)){
-                    
-                    if(data[x].Status__c='--None--'){
+                if(x == this.btnIndex(row.Staff_Name__r.Teacher_Name__c)){
+                    console.log('Insedxx',x)
+
                         data[x].Check_In__c = time;
-                        //data[x].Date__c = date;
-            
                         data[x].Status__c='Present';
                         index=x;
-                    } 
+                        if(data[x].Check_In__c!=null){
+                            data[x].disabledButton1=true;
+                        }
+                  
                 }
 
             }
             console.log('Data',data[index])
             this.checkInData=data; 
-            let value=JSON.stringify(data[index])
+            console.log('Alllllllllllllllll',JSON.stringify(this.checkInData));
+            let value={...data[index]};
+            value['Staff_Name__c'] = value.Staff_Name__r.Id;
+            console.log('alll Result',value);
+            
              
-            updateRecords({attendance:value})
+             updateRecords({attendance:JSON.stringify(value)})
+            .then((result) => {
+                console.log('Resulttt',result)
+            })
+        }
+
+        if(event.detail.action.label==='Check_Out' ){
+            
+                location.reload();    
+            
+           let row = event.detail.row;
+            let data=JSON.parse(JSON.stringify(this.checkInData));
+            let time=this.getTimes();
+            let index;
+            for(let x = 0; x <= data.length; x++){
+                if(x == this.btnIndex(row.Staff_Name__r.Teacher_Name__c) ){
+                       
+                        
+                    
+                    if((data[x].Status__c =='Present')){
+                        data[x].Check_Out__c = time;
+                        index=x;  
+                    }
+                    else{
+                        data[x].Status__c = 'Swipe In Missing';  
+                        index=x; 
+                    }
+                    if(data[x].Check_Out__c!=null){
+                        data[x].disabledButton2=true;
+                        
+                    }   
+                }
+           }
+            this.checkInData=data;
+
+           let value = {...data[index]};
+           value['Staff_Name__c'] = value.Staff_Name__r.Id;
+            console.log('alll Result12345',value);
+            
+             
+             updateRecords({attendance:JSON.stringify(value)})
             .then((result) => {
                 console.log('Resulttt',result)
             })
 
 
-
-
-
-
-
-
-            
-            timer= setTimeout(() => {
-                    console.log('Intervallll',index)
-                    if(this.checkInData[index].Status__c=='Present'  ){
-                        this.checkInData[index].Status__c = 'Swipe Out Missing';
-                    
-                        this.refreshData(); 
-                     }  
-                }, 5000);
-                
-        //         this.interval = setInterval(() => {
-        //             data[x].Status__c = 'Absent';
-        //         }, 1000);
-
-           
-        }
-
-        if(event.detail.action.label==='Check_Out' ){
-
-           let row = event.detail.row;
-            let data=JSON.parse(JSON.stringify(this.checkInData));
-            let time=this.getTimes();
-            let date=this.getDate();
-            for(let x = 0; x <= data.length; x++){
-                if(x == this.btnIndex(row.Teacher_Name__c) ){
-                    
-                    if((data[x].Status__c =='--None--')){
-                        data[x].Status__c = 'Swipe In Missing';
-                    }
-                    else if((data[x].Status__c =='Present')){
-                        data[x].Check_Out__c = time;
-                        clearTimeout(timer);
-                    }
-                    
-                }
-           }
-            this.checkInData=data;
         }
 
         if(event.detail.action.label==='Cancel_Check'){
+            if(Check_In__c=='' || Check_Out__c==''){
+                console.log('No reload')
+            }
+            else{
+                location.reload();    
+            }
+            let index;
             let data=JSON.parse(JSON.stringify(this.checkInData));
             let row = event.detail.row;
             for(let x = 0; x <= data.length; x++){
-                if(x == this.btnIndex(row.Teacher_Name__c)){
+                if(x == this.btnIndex(row.Staff_Name__r.Teacher_Name__c)){
                     data[x].Check_In__c = '';
                     data[x].Check_Out__c = '';
-                    //data[x].Date__c = '';
-                    data[x].Status__c = '--None--';
+                    data[x].Status__c='';
+                    index=x;
                 }
            }
             this.checkInData=data;
-        }
-    }
 
-    rowSelectionHandler(event){
-        this.selectedData=event.detail.selectedRows;
+            let value = {...data[index]};
+           value['Staff_Name__c'] = value.Staff_Name__r.Id;
+            console.log('alll Result1234566',value);
+             
+            delFields({deleteFields:JSON.stringify(value)})
+            .then((result) => {
+                console.log('Resulttt',result)
+            })
+            .catch(error => {
+                     console.log('errorrrrr' + JSON.stringify(error));
+                 });
+         }
     }
 
 showData(){
@@ -250,21 +242,6 @@ showData(){
     this.checkInData;
     location.reload();
 }
-
-getSelectedRec() {
-
-    var selectedRecords =  this.template.querySelector("lightning-datatable").getSelectedRows();
-    let len =selectedRecords.length;
-    if(selectedRecords.length > 0){
-        console.log('selectedRecords are '+JSON.stringify(selectedRecords));
-        selectedRecords.forEach(currentItem => {
-            console.log('Selecteeeed')
-            this.arr.push(currentItem.Id);
-            console.log('Selecteeeed134')
-        }); 
-    }  
-    return len;
-  }
 
 doSorting(event) {
     this.sortBy = event.detail.fieldName;

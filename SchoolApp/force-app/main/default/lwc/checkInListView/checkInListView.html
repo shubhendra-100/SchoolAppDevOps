@@ -37,7 +37,7 @@
                             key-field="CheckInId"
                             data={checkInData}
                             columns={columns}
-                            onrowselection={rowSelectionHandler} 
+                            hide-checkbox-column="true"
                             onrowaction={handleRowAction}
                             sorted-by={sortBy}
                             sorted-direction={sortDirection} 
@@ -51,4 +51,5 @@
 </template>
 
 <!-- checkbox-column="true"
+    onrowselection={rowSelectionHandler} 
                             show-row-number-column="false"  -->

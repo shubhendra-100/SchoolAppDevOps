@@ -13,7 +13,7 @@ import School_object from '@salesforce/schema/School_Type__c';
 import school_type from '@salesforce/schema/School_Type__c.Name';
 import findDepartment from '@salesforce/apex/searchdep.findDepartment';
 import addschool from '@salesforce/apex/addschool.addschool';
-// import showschool from '@salesforce/apex/addschool.showschool';
+import showschool from '@salesforce/apex/addschool.showschool';
 
 
 // import Soq from '@salesforce/apex/addschool.Soq';
@@ -41,8 +41,7 @@ const columns = [
     { type: 'action', typeAttributes: { rowActions: actions } }
 ];
 const columns1 = [
-    { label: 'School Type', fieldName: 'DepartmentClass__r' },
-    { label: 'ClassSchool', fieldName: 'ClassSchool__r' },
+    { label: 'School Type', fieldName: 'Name' },
     { label: 'LastModifiedBy', fieldName: 'LastModifiedByName' },
     { label: 'LastModifiedDate', fieldName: 'LastModifiedDate' },
     
@@ -86,41 +85,42 @@ export default class AcademicListTable extends LightningElement {
 
     }
     columns1 = columns1;
-    // @wire(showschool)
+    @wire(showschool)
 
-    // wiredClasses({ error, data }) {
+    wiredClasses({ error, data }) {
 
-    //     if (data) {
+        if (data) {
 
-    //         this.data = data.map((item) => {
+            this.data = data.map((item) => {
 
-    //             return {
+                return {
 
-    //                 Id: item.Id,
+                    Id: item.Id,
 
-    //                 Name: item.Name,
+                    Name: item.Name,
+                    // ClassSchool__r : item.ClassSchool__r.Name,
 
-    //                 DepartmentClass__r : item.DepartmentClass__r.Name,
-    //                 ClassSchool__r : item.ClassSchool__r.Name,
+                    // DepartmentClass__r : item.DepartmentClass__r.Name,
+                    // ClassSchool__r : item.ClassSchool__r.Name,
 
-    //                 LastModifiedByName: item.LastModifiedBy.Name,
-    //                 LastModifiedDate : item.LastModifiedDate.split('T')[0]
+                    LastModifiedByName: item.LastModifiedBy.Name,
+                    LastModifiedDate : item.LastModifiedDate.split('T')[0]
 
-    //             }
+                }
 
-    //         });
+            });
 
-    //         this.error = undefined;
+            this.error = undefined;
 
-    //     } else if (error) {
+        } else if (error) {
 
-    //         this.error = error;
+            this.error = error;
 
-    //         this.data = undefined;
+            this.data = undefined;
 
-    //     }
+        }
 
-    // }
+    }
   
     
     value = ['option1'];
