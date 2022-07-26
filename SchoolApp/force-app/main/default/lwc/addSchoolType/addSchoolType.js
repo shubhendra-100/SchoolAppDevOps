@@ -11,6 +11,7 @@ import school_type from '@salesforce/schema/School_Type__c';
 
 import School_name from '@salesforce/schema/School_Type__c.DepartmentClass__c'
 import s_name from '@salesforce/schema/School_Type__c.Name'
+import save from '@salesforce/apex/addschool.save';
 
 export default class AddSchoolType extends LightningElement {
     @track isAddSchool = false;
@@ -103,10 +104,10 @@ export default class AddSchoolType extends LightningElement {
 
     createAccountdsf(event) {
         console.log('tell me'+JSON.stringify(this.listClass));
-        save({listcls:this.listClass})
+        save({listcls: this.listClass[0]})
             .then(account => {
                 console.log('listclass=====>'+JSON.stringify(account))
-                this.result = account;
+                //this.result = account;
                // this.RecordId = Record.id;
                 this.dispatchEvent(
                     new ShowToastEvent({
@@ -117,7 +118,7 @@ export default class AddSchoolType extends LightningElement {
                     
                 );
                 location.reload();
-                console.log('testing')
+                console.log('testing');
                 // this[NavigationMixin.Navigate]({
                 //     type: 'standard__objectPage',
                 //     attributes: {
@@ -125,10 +126,10 @@ export default class AddSchoolType extends LightningElement {
                 //         actionName: 'list'
                 //     },
                 // });
-                console.log('testing2')
+                console.log('testing2');
             })
             .catch(error => {
-                console.log('error=====>'+JSON.stringify(error))
+                console.log('error=====>'+JSON.stringify(error));
 
                 this.dispatchEvent(
                     new ShowToastEvent({

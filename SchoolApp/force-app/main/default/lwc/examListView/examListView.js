@@ -12,7 +12,7 @@ const actions = [
 
     {
         label: 'Add Subject', name: 'Add', iconName: "utility:add",
-        alternativeText: "ADD Subject",
+        alternativeText: "Add Subject",
         title: "Add Subject"
     },
     
@@ -50,6 +50,7 @@ export default class ExamListView extends LightningElement {
     @track isPopOpen = false;
     @track isModalOpen = false;
     examRecords;
+    @track isAddSubject = false;
 
     @track getModalValue;
     // @track editRecordsId;
@@ -61,6 +62,7 @@ export default class ExamListView extends LightningElement {
       }
       closeModal() {
         this.isModalOpen = false;
+        this.isAddSubject = false;
        // this.isPopOpen = false;
        }
 
@@ -145,6 +147,10 @@ export default class ExamListView extends LightningElement {
             console.log('Entered the loop');
             this.recordID = event.detail.row.Id;
             console.log('recordID --> '+this.recordID);
+        }
+
+        if(event.detail.action.name === "Add"){
+            this.isAddSubject = true;
         }
     }
 
