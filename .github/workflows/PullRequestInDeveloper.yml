@@ -34,10 +34,9 @@ jobs:
  # Runs a set of commands using the runners shell
    
     - name: 'Authorize'
-      run: |
-       sfdx force:auth:jwt:grant --clientid=${{ secrets.CONSUMER_KEY }} --username=${{ secrets.USERNAME }} --setdefaultdevhubusername --setalias=schoolApp
+      run: sfdx auth:web:login --clientid=3MVG9PG9sFc71i9nP75XAAhAgpPjP7HpWp4dzr2bM6FVj0F7BsAk9RYkP_ZIKIWdaNvz11v9Ki9e88wTMUe6j --username=${{ secrets.USERNAME }}
     - name: 'Convert Metadata'
       run: sfdx force:source:convert --rootdir=force-app --outputdir=convert
-    - name: 'Run Test on Metadata'
+    - name: 'deploy to org'
   
-      run: sfdx force:mdapi:deploy --deploydir=convert --testlevel=RunLocalTests --checkonly -u SchoolAppDevBranch
+      run: sfdx force:source:deploy --deploydir=convert --testlevel=RunLocalTests --checkonly -u SchoolAppDevBranch
