@@ -35,7 +35,7 @@ jobs:
  # Runs a set of commands using the runners shell
    
     - name: 'Authorize'
-      run: sfdx auth:web:login --clientid=3MVG9PG9sFc71i9nP75XAAhAgpPjP7HpWp4dzr2bM6FVj0F7BsAk9RYkP_ZIKIWdaNvz11v9Ki9e88wTMUe6j --username=${{ secrets.USERNAME }}
+      run: sfdx auth:web:login --clientid=3MVG9PG9sFc71i9nP75XAAhAgpPjP7HpWp4dzr2bM6FVj0F7BsAk9RYkP_ZIKIWdaNvz11v9Ki9e88wTMUe6j 
     - name: 'Convert Metadata'
       run: sfdx force:source:convert --rootdir=force-app --outputdir=convert
     - name: 'deploy to org'
